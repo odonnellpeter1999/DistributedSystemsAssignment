@@ -1,0 +1,42 @@
+#ref: https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config-yaml
+spring:
+  application:
+    name: TemplateService
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+  liquibase:
+    change-log: "classpath:db/migration/liquibase-changelog.xml"
+    enabled: true
+
+#ref: https://springdoc.org/
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+
+  swagger-ui:
+    path: /a/swagger.html
+    enabled: true
+    filter: true
+    display-request-duration: true
+    urls-primary-name: TestName
+
+  paths-to-match: /v1
+  show-actuator: true
+  auto-tag-classes: true
+  use-fqn: true
+  writer-with-order-by-keys: true
