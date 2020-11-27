@@ -15,7 +15,7 @@ tags:
 
 paths:
   /quotations:
-    put:
+    post:
       tags:
         - clients
       summary: request quotations
@@ -40,7 +40,7 @@ paths:
           description: invalid input
           
   /quote:
-    put:
+    post:
       tags:
         - postal_services
       summary: request quotation
