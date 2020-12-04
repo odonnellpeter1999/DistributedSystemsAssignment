@@ -19,4 +19,7 @@ Default parameters are listed in respective application.properties files.
 
 - Once the Eureka server is up and running you can access its interface at `http://localhost:8761/`
 - Ensure the Eureka server is up and running before starting the client
-- Dummy client has single /greeting route accessible `http://localhost:8081/greeting`
+- Client has a /greeting route accessible at `http://localhost:8081/greeting`
+- Client has route to retrieve all known registered applications accessible at `http://localhost:8081/service-instances`
+- Client has route to retrieve specific instances of registered application accessible at `http://localhost:8081/service-instances/{applicationName}`
+  - e.g. `/service-instances/client-example`
