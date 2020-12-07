@@ -44,6 +44,7 @@ public class QuotationService {
     }
 
 
+    @RequestMapping("/service-instances/list")
     public ArrayList<InstanceInfo> serviceInstancesList() {
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
