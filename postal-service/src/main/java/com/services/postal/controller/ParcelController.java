@@ -1,7 +1,7 @@
-package com.services.template.controller;
+package com.services.postal.controller;
 
-import com.services.template.entities.Parcel;
-import com.services.template.service.ParcelService;
+import com.services.postal.entities.Parcel;
+import com.services.postal.service.ParcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

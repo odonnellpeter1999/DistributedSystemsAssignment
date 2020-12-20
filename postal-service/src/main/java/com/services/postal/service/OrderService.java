@@ -1,7 +1,7 @@
-package com.services.template.service;
+package com.services.postal.service;
 
-import com.services.template.entities.Order;
-import com.services.template.repository.OrderRepository;
+import com.services.postal.entities.Order;
+import com.services.postal.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

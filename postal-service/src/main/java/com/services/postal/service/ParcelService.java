@@ -1,7 +1,7 @@
-package com.services.template.service;
+package com.services.postal.service;
 
-import com.services.template.entities.Parcel;
-import com.services.template.repository.ParcelRepository;
+import com.services.postal.entities.Parcel;
+import com.services.postal.repository.ParcelRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

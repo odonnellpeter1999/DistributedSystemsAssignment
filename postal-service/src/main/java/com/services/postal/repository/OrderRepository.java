@@ -1,6 +1,6 @@
-package com.services.template.repository;
+package com.services.postal.repository;
 
-import com.services.template.entities.Order;
+import com.services.postal.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;

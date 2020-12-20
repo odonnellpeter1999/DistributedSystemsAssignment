@@ -11,7 +11,7 @@
     <groupId>distributedimagination</groupId>
     <artifactId>postal-service</artifactId>
     <version>0.0.1</version>
-    <description>Generalized postal service using template. Registers to Eureka client.</description>
+    <description>Generalized postal service using postal. Registers to Eureka client.</description>
 
     <properties>
         <java.version>1.8</java.version>

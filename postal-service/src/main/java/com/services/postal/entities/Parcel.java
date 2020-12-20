@@ -1,4 +1,4 @@
-package com.services.template.entities;
+package com.services.postal.entities;
 
 import lombok.*;
 

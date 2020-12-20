@@ -1,6 +1,6 @@
-package com.services.template.repository;
+package com.services.postal.repository;
 
-import com.services.template.entities.Parcel;
+import com.services.postal.entities.Parcel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
