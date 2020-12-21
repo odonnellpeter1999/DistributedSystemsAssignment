@@ -7,39 +7,34 @@
 
         <createTable tableName="orders">
             <column autoIncrement="false" name="oid" type="UUID">
-                <constraints nullable="true" primaryKey="true"/>
-            </column>
-            <column name="source" type="VARCHAR(255)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="destination" type="VARCHAR(255)">
-                <constraints nullable="true"/>
-            </column>
-            <column name="cost" type="DOUBLE">
-                <constraints nullable="true"/>
-            </column>
-            <column name="expected_delivery" type="VARCHAR(255)">
-                <constraints nullable="true"/>
-            </column>
-        </createTable>
-        <insert tableName="orders">
-            <column name="oid">1afb88b2-fe91-4b12-a5fb-08b37252adfa</column>
-            <column name="source">London</column>
-            <column name="destination">Manchester</column>
-            <column name="cost">55.23</column>
-            <column name="expected_delivery">Monday</column>
-        </insert>
-
-
-        <createTable tableName="parcels">
-            <column autoIncrement="false" name="id" type="UUID">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="content_description" type="VARCHAR(255)">
+            <column name="source_lon" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="value" type="DOUBLE">
+            <column name="source_lat" type="DOUBLE">
                 <constraints nullable="false"/>
+            </column>
+            <column name="destination_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destination_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_order" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_delivery" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="parcels">
+            <column autoIncrement="false" name="oid" type="UUID">
+                <constraints primaryKey="true"/>
             </column>
             <column name="weight_kg" type="DOUBLE">
                 <constraints nullable="false"/>
@@ -53,37 +48,16 @@
             <column name="height_cm" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="current_location" type="VARCHAR(255)">
-                <constraints nullable="false"/>
+            <column name="location_lon" type="DOUBLE">
+                <constraints nullable="true"/>
             </column>
-            <column name="oid" type="UUID">
-                <constraints nullable="false" foreignKeyName="fk_oid" referencedTableName="orders"
+            <column name="location_lat" type="DOUBLE">
+                <constraints nullable="true"/>
+            </column>
+            <column name="order_oid" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_order_oid" referencedTableName="orders"
                              referencedColumnNames="oid"/>
             </column>
         </createTable>
-        <insert tableName="parcels">
-            <column name="id">1c0db21a-44d9-4f68-a277-d0bb681faedb</column>
-            <column name="content_description">LG TV</column>
-            <column name="value">799.99</column>
-            <column name="weight_kg">24.43</column>
-            <column name="length_cm">30.2</column>
-            <column name="width_cm">121.7</column>
-            <column name="height_cm">68.6</column>
-            <column name="current_location">London</column>
-            <column name="oid">1afb88b2-fe91-4b12-a5fb-08b37252adfa</column>
-        </insert>
-        <insert tableName="parcels">
-            <column name="id">2b0db21a-44d9-4f68-a277-d0bb681faeda</column>
-            <column name="content_description">LG Soundbar</column>
-            <column name="value">399.99</column>
-            <column name="weight_kg">12.1</column>
-            <column name="length_cm">20</column>
-            <column name="width_cm">80</column>
-            <column name="height_cm">40</column>
-            <column name="current_location">Dublin</column>
-            <column name="oid">1afb88b2-fe91-4b12-a5fb-08b37252adfa</column>
-        </insert>
-
     </changeSet>
 </databaseChangeLog>
-

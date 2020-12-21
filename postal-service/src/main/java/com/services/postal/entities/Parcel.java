@@ -3,31 +3,36 @@ package com.services.postal.entities;
 import lombok.*;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.UUID;
 
 @Builder
-@Data
 @Entity
-@EqualsAndHashCode
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "parcels")
-@ToString
 public class Parcel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    private String contentDescription;
-    private Double value;
+    private UUID oid;
     private Double weightKg;
     private Double lengthCm;
     private Double widthCm;
     private Double heightCm;
-    private String currentLocation; // change this to either lat/long, geopoint, or postgres(postGIS) compatible, geometry/geography etc
+    private Double locationLon;
+    private Double locationLat;
 
-    @ManyToOne
-    @JoinColumn(name = "oid", referencedColumnName = "oid")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderOid", referencedColumnName = "oid")
     @NonNull
+    @JsonIgnore
     private Order order;
+
+    public Double getVolume() {
+        return this.widthCm * this.lengthCm * this.heightCm;
+    }
 }
