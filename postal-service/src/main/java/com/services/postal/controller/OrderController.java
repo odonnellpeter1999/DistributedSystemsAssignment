@@ -3,13 +3,18 @@ package com.services.postal.controller;
 import com.services.postal.entities.Order;
 import com.services.postal.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -29,9 +34,13 @@ public class OrderController {
     }
 
     @PostMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Order placeOrder(@RequestBody Order application) {
+    public ResponseEntity<Order> placeOrder(@RequestBody Order application) throws URISyntaxException {
         Order newOrder = this.orderService.createOrder(application);
-        return this.orderService.saveOrder(newOrder);
+        newOrder = this.orderService.saveOrder(newOrder);
+        String path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()+ "/track?orderId=" + newOrder.getOid();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(new URI(path));
+        return new ResponseEntity<>(newOrder, headers, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
