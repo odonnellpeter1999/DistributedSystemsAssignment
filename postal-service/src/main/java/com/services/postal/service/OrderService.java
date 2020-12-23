@@ -2,6 +2,7 @@ package com.services.postal.service;
 
 import com.services.postal.entities.Order;
 import com.services.postal.entities.Parcel;
+import com.services.postal.errors.NoSuchOrderException;
 import com.services.postal.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -46,7 +47,10 @@ public class OrderService {
     }
 
     public Optional<Order> getOrderById(String id) {
-        // TODO: HANDLE ILLEGAL ARGUMENT EXCEPTION
-        return orderRepository.findById(UUID.fromString(id));
+        try {
+            return orderRepository.findById(UUID.fromString(id));
+        } catch (IllegalArgumentException e) {
+            throw new NoSuchOrderException();
+        }
     }
 }

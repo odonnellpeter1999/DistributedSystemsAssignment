@@ -45,3 +45,7 @@ springdoc:
   auto-tag-classes: true
   use-fqn: true
   writer-with-order-by-keys: true
+
+server:
+  error:
+    include-message: always
