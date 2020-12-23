@@ -2,6 +2,11 @@ package com.services.postal.entities;
 
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,16 +28,36 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID oid;
+
+    @DecimalMax("180") 
+    @DecimalMin("-180")
+    @NotNull
     private Double sourceLon;
+
+    @DecimalMax("90") 
+    @DecimalMin("-90")
+    @NotNull 
     private Double sourceLat;
+
+    @DecimalMax("180") 
+    @DecimalMin("-180")
+    @NotNull 
     private Double destinationLon;
+
+    @DecimalMax("90") 
+    @DecimalMin("-90")
+    @NotNull
     private Double destinationLat;
+
+    // Values determined by server, do not need to be validated
     private Double locationLon;
     private Double locationLat;
     private Double cost;
     private Date dateOrder;
     private Date dateDelivery;
 
+    @NotEmpty
+    @Valid
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
     private List<Parcel> parcels;
 

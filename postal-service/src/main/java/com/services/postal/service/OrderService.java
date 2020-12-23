@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ public class OrderService {
     }
 
     public Order saveOrder(Order order) {
-        return this.orderRepository.save(order);
+        return this.orderRepository.saveAndFlush(order);
     }
 
     public List<Order> getAllOrders() {
@@ -44,8 +45,8 @@ public class OrderService {
         return bookings;
     }
 
-    public Order getOrderById(String id) {
-        // TODO: HANDLE NOSUCHELEMENTEXCEPTION
-        return orderRepository.findById(UUID.fromString(id)).get();
+    public Optional<Order> getOrderById(String id) {
+        // TODO: HANDLE ILLEGAL ARGUMENT EXCEPTION
+        return orderRepository.findById(UUID.fromString(id));
     }
 }
