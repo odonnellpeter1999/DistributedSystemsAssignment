@@ -11,9 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -45,7 +45,7 @@ public class OrderController {
     public ResponseEntity<Order> placeOrder(@Valid @RequestBody Order application) throws URISyntaxException {
         Order newOrder = this.orderService.createOrder(application);
         newOrder = this.orderService.saveOrder(newOrder);
-        String path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()+ "/track?orderId=" + newOrder.getOid();
+        String path = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()+ "/track/" + newOrder.getOid();
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI(path));
         return new ResponseEntity<>(newOrder, headers, HttpStatus.CREATED);
@@ -56,8 +56,8 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @GetMapping(value = "/track", params = "orderId", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Order getOrderById(@RequestParam String orderId) {
+    @GetMapping(value = "/track/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Order getOrderById(@PathVariable("orderId") String orderId) {
         Optional<Order> order = this.orderService.getOrderById(orderId);
         
         if (!order.isPresent()) {
