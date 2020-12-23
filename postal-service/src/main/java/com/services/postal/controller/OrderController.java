@@ -56,7 +56,7 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @GetMapping(value = "/track/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/orders/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Order getOrderById(@PathVariable("orderId") String orderId) {
         Optional<Order> order = this.orderService.getOrderById(orderId);
         
