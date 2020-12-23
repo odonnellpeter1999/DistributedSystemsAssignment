@@ -27,6 +27,8 @@ public class Order {
     private Double sourceLat;
     private Double destinationLon;
     private Double destinationLat;
+    private Double locationLon;
+    private Double locationLat;
     private Double cost;
     private Date dateOrder;
     private Date dateDelivery;

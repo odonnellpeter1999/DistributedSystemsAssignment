@@ -23,8 +23,6 @@ public class Parcel implements Serializable {
     private Double lengthCm;
     private Double widthCm;
     private Double heightCm;
-    private Double locationLon;
-    private Double locationLat;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "orderOid", referencedColumnName = "oid")

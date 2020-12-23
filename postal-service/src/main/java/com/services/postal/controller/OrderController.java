@@ -39,7 +39,7 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @GetMapping(value = "/orders", params = "orderId", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/track", params = "orderId", produces = MediaType.APPLICATION_JSON_VALUE)
     public Order getOrderById(@RequestParam String orderId) {
         return orderService.getOrderById(orderId);
     }

@@ -21,6 +21,12 @@
             <column name="destination_lat" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
+            <column name="location_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
             <column name="cost" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
@@ -47,12 +53,6 @@
             </column>
             <column name="height_cm" type="DOUBLE">
                 <constraints nullable="false"/>
-            </column>
-            <column name="location_lon" type="DOUBLE">
-                <constraints nullable="true"/>
-            </column>
-            <column name="location_lat" type="DOUBLE">
-                <constraints nullable="true"/>
             </column>
             <column name="order_oid" type="UUID">
                 <constraints nullable="false" foreignKeyName="fk_order_oid" referencedTableName="orders"
