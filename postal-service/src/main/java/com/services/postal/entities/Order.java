@@ -40,15 +40,16 @@ public class Order {
         Double costDistance = this.calcDistance() * 0.000001;
         Double costVolume = this.calcVolume() * 0.0001;
         Double costWeight = this.calcWeight() * 1.25;
-        this.cost = (costDistance + costVolume + costWeight) * serviceMultiplier;
+        Double cost = (costDistance + costVolume + costWeight) * serviceMultiplier;
+        this.cost = (double) Math.round(cost * 100) / 100;
     }
 
     public void calcDelivery() {
-        int expectedDays = (int) Math.ceil(this.calcDistance() / 200000); // 200km a day
+        int expectedDays = (int) Math.ceil(this.calcDistance() / 200000); // 200km a day?
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.dateOrder);
         cal.add(Calendar.DATE, expectedDays);
-        this.dateDelivery = cal.getTime();
+        this.dateDelivery = cal.getTime(); // Set expected delivery date
     }
 
     private double calcWeight() {
