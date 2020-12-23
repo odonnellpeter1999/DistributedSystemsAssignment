@@ -60,7 +60,7 @@ public class Order {
     private double calcVolume() {
         double result = 0.;
         for (Parcel parcel : this.getParcels()) {
-            result += (parcel.getLengthCm() * parcel.getWidthCm() * parcel.getHeightCm());
+            result += parcel.calcVolume();
         }
         return result;
     }

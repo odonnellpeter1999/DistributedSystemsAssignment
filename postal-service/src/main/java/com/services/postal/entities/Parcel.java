@@ -32,7 +32,7 @@ public class Parcel implements Serializable {
     @JsonIgnore
     private Order order;
 
-    public Double getVolume() {
+    public Double calcVolume() {
         return this.widthCm * this.lengthCm * this.heightCm;
     }
 }

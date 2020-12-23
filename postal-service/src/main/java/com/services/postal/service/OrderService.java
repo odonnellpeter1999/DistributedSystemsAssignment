@@ -43,6 +43,7 @@ public class OrderService {
     }
 
     public Order getOrderById(String id) {
+        // TODO: HANDLE NOSUCHELEMENTEXCEPTION
         return orderRepository.findById(UUID.fromString(id)).get();
     }
 }
