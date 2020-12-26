@@ -3,14 +3,13 @@ spring:
   application:
     name: postalservice
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
+    url: jdbc:postgresql://database:5432/
+    username: postgres
     password: password
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   h2:
     console:
       enabled: true
