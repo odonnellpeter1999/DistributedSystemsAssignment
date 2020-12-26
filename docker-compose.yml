@@ -24,3 +24,13 @@ services:
       - discovery
     ports:
       - 8762:8762
+
+  quotations:
+    image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+    ports:
+      - 8800:8800
