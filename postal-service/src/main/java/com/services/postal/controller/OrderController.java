@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 @RestController
+@Tag(name = "Service", description = "Postal Service API")
 public class OrderController {
 
     private final OrderService orderService;
@@ -35,12 +38,14 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @Operation(summary = "Requestion quotation", description = "Endpoint for quotation requests")
     @PostMapping(value = "/quote", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Order getQuotation(@Valid @RequestBody Order application) {
         Order quoteOrder = this.orderService.createOrder(application);
         return quoteOrder;
     }
 
+    @Operation(summary = "Place order", description = "Endpoint to place a new order")
     @PostMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> placeOrder(@Valid @RequestBody Order application) throws URISyntaxException {
         Order newOrder = this.orderService.createOrder(application);
@@ -51,11 +56,13 @@ public class OrderController {
         return new ResponseEntity<>(newOrder, headers, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get list of orders", description = "Endpoint for retrieving list of all orders")
     @GetMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
+    @Operation(summary = "Get specific order", description = "Endpoint for retrieving specific order")
     @GetMapping(value = "/track/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Order getOrderById(@PathVariable("orderId") String orderId) {
         Optional<Order> order = this.orderService.getOrderById(orderId);
