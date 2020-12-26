@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -17,11 +16,9 @@ public class QuotationController {
     //public ArrayList<String> applicationsInstances = new ArrayList<>();
 
     @RequestMapping(value = "/service-instances/list")
-    public String getApplications() {
-        ServiceInstance instance = discoveryClient.getInstances("demo-service").get(0);
-        instance.getUri().toString();
-
-        return instance.getUri().toString();
+    public List getApplications() {
+        List<ServiceInstance> services = discoveryClient.getInstances("DEMO-SERVICE");
+        return services;
     }
 }
 
