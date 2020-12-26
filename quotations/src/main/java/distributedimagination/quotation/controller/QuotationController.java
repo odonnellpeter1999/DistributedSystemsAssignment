@@ -1,39 +1,29 @@
 package distributedimagination.quotation.controller;
 
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.DiscoveryClient;
-import com.netflix.discovery.shared.Application;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootApplication
 @RestController
 public class QuotationController {
-
     @Autowired
     private DiscoveryClient discoveryClient;
+    //public ArrayList<String> applicationsInstances = new ArrayList<>();
 
-    public ArrayList<InstanceInfo> applicationsInstances = new ArrayList<>();
+    @RequestMapping(value = "/service-instances/list")
+    public String getApplications() {
+        ServiceInstance instance = discoveryClient.getInstances("demo-service").get(0);
+        instance.getUri().toString();
 
-    @RequestMapping(value = "/service-instances/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ArrayList<InstanceInfo> getApplications() {
-
-        List<Application> applications = discoveryClient.getApplications().getRegisteredApplications();
-        for (Application application : applications) {
-            applicationsInstances = (ArrayList<InstanceInfo>) application.getInstances();
-            for (InstanceInfo applicationsInstance : applicationsInstances) {
-                String name = applicationsInstance.getAppName();
-                String url = applicationsInstance.getHomePageUrl();
-                System.out.println(name + ": " + url);
-            }
-        }
-        return applicationsInstances;
-
+        return instance.getUri().toString();
     }
+}
 
     //    @RequestMapping("/service-instances/quotations")
 //    public ArrayList<String> getQuotationsList(@PathVariable String applicationName) {
@@ -44,4 +34,3 @@ public class QuotationController {
 //        }
 //        return quotations;
 //    }
-}
