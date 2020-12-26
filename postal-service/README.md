@@ -1,6 +1,7 @@
 # Postal Service
 
 Generalised postal service which registers to an Eureka Discovery server and handles quotation, order and tracking requests.
+Adds serviceName and serviceID as MetaData when registering to Discovery server.
 
 ## API Documentation
 
