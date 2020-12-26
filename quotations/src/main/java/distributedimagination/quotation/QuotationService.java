@@ -6,15 +6,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.netflix.discovery.shared.Application;
-import com.netflix.discovery.shared.Applications;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -22,30 +17,33 @@ import java.util.List;
 
 
 @SpringBootApplication
-@EnableEurekaClient
 @RestController
+@EnableEurekaClient
+
 public class QuotationService {
 
-    public ArrayList<InstanceInfo> applicationsInstances = new ArrayList<>();
-    @Qualifier("eurekaClient")
     @Autowired
-    @Lazy
-    private EurekaClient eurekaClient;
+    @Qualifier("eurekaClient")
+    private EurekaClient client;
 
-    @Value("${spring.application.name}")
-    private String appName;
-
-    @Value("${server.port}")
-    private String portNumber;
+    public ArrayList<InstanceInfo> applicationsInstances = new ArrayList<>();
+//    @Qualifier("eurekaClient")
+//    @Autowired
+//    @Lazy
+//    private EurekaClient eurekaClient;
+//    @Value("${spring.application.name}")
+//    private String appName;
+//    @Value("${server.port}")
+//    private String portNumber;
 
     public static void main(String[] args) {
         SpringApplication.run(QuotationService.class, args);
     }
 
+    @RequestMapping (value = "/service-instances/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<InstanceInfo> getApplications() {
 
-    @RequestMapping("/service-instances/list")
-    public ArrayList<InstanceInfo> serviceInstancesList() {
-        List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
+        List<Application> applications = client.getApplications().getRegisteredApplications();
         for (Application application : applications) {
             applicationsInstances = (ArrayList<InstanceInfo>) application.getInstances();
             for (InstanceInfo applicationsInstance : applicationsInstances) {
@@ -55,17 +53,19 @@ public class QuotationService {
             }
         }
         return applicationsInstances;
-    }
 
-    @RequestMapping("/service-instances/quotations")
-    public ArrayList<String> getQuotationsList(@PathVariable String applicationName) {
-        ArrayList<String> quotations = new ArrayList<String>();
-        for (int i=0; i < applicationsInstances.size();i++){
-           applicationName = applicationsInstances.get(i).getAppName();
-           quotations.add("/{applicationName}/quote");
-        }
-        return quotations;
     }
+    
+
+//    @RequestMapping("/service-instances/quotations")
+//    public ArrayList<String> getQuotationsList(@PathVariable String applicationName) {
+//        ArrayList<String> quotations = new ArrayList<String>();
+//        for (int i = 0; i < applicationsInstances.size(); i++) {
+//            applicationName = applicationsInstances.get(i).getAppName();
+//            quotations.add("/{applicationName}/quote");
+//        }
+//        return quotations;
+//    }
 
 }
 
