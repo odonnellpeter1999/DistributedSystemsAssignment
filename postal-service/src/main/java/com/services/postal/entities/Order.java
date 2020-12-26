@@ -7,6 +7,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -55,6 +56,8 @@ public class Order {
     private Double cost;
     private Date dateOrder;
     private Date dateDelivery;
+    private transient String serviceName;
+    private transient String serviceId;
 
     @NotEmpty
     @Valid
