@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.ws.rs.GET;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,13 +66,6 @@ public class QuotationService {
         }
         return quotations;
     }
-
-
-
-
-
-
-
 
 }
 
