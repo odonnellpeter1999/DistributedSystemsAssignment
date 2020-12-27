@@ -1,4 +1,4 @@
-package com.services.demoservice;
+package com.services.registryclient;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -8,7 +8,7 @@
         <module>common</module>
         <module>template</module>
         <module>discovery</module>
-        <module>demo-service</module>
+        <module>registry-client</module>
         <module>router</module>
     </modules>
 
