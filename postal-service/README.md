@@ -20,9 +20,14 @@ H2 in-memory database is used. Login details are defined in application.properti
 - User Name=sa
 - Password=password
 
+Note: H2-console not available when running dockerised version, access blocked.
+
 ## How To Run
 
 - Run server with default parameters: `mvn spring-boot:run`
+- Run dockerised version:
+  - `mvn package`
+  - `docker run -t -i -p 8080:8080 distributed_imagination/postal-service:0.0.1`
 - Override parameters:
   - `mvn spring-boot:run -Dspring-boot.run.arguments="--DeliveryCostMultiplier=0.89 --PostalServiceName=AnPost --PostalServiceId=anp"`
 
