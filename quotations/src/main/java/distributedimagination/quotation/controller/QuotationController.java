@@ -15,10 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootApplication
 @RestController
@@ -40,13 +37,17 @@ public class QuotationController {
         return serviceInstances;
     }
 
-    @RequestMapping("/service-instances/quotations")
-    public ArrayList<String> getQuotationsList(@PathVariable String applicationName, @PathVariable String port) throws URISyntaxException {
+    @RequestMapping(value = "/service-instances/quotations")
+    public ArrayList<String> getQuotationsList() throws URISyntaxException {
         ArrayList<String> quotations = new ArrayList<String>();
-        for (int i = 0; i < serviceInstances.size(); i++) {
-                applicationName = serviceInstances.get(i);
-                port = serviceInstances.get(applicationName);
-            final String baseUrl = "http://localhost:" + port + "/{applicationName}/quote";
+        quotations.add("Test Quote");
+        Iterator<Map.Entry<Integer, String>> it = serviceInstances.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry<Integer, String> itMap = it.next();
+            String applicationName = itMap.getValue();
+            String port = itMap.getValue();
+            final String baseUrl = "http://localhost:" + port + "/" + applicationName + "/quote";
             URI uri = new URI(baseUrl);
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<String> requestEntity = new HttpEntity<>(null);
