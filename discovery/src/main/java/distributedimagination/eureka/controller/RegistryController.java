@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -21,7 +21,7 @@ public class RegistryController {
     }
 
     @GetMapping
-    public Map<String, String> getAllParcels() {
+    public List<String> getAllParcels() {
         return registryService.getPostalServices();
     }
 }
