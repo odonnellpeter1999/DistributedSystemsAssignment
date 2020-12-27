@@ -23,10 +23,9 @@ public class QuotationController {
     @Autowired
     private EurekaClient eurekaClient;
 
-    public Map<Integer, String> serviceInstances = new HashMap<>();
-
     @RequestMapping(value = "/service-instances/list")
     public Map getApplications() {
+        Map<Integer, String> serviceInstances = new HashMap<>();
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
             for (InstanceInfo instance : application.getInstances()) {
@@ -41,6 +40,7 @@ public class QuotationController {
     public ArrayList<String> getQuotationsList() throws URISyntaxException {
         ArrayList<String> quotations = new ArrayList<String>();
         quotations.add("Test Quote");
+        Map<Integer, String> serviceInstances = getApplications();
         Iterator<Map.Entry<Integer, String>> it = serviceInstances.entrySet().iterator();
 
         while (it.hasNext()) {
