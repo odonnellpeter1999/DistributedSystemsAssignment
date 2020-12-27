@@ -1,5 +1,12 @@
 # Eureka Server
 
+### /postal-services endpoint
+The /postal-services endpoint provides a mapping of all registered postal services. This can be used by broker services
+route their requests to all postal services. 
+
+Postal services will only appear at this endpoint if their `spring.application.name` property in the `application.properties` 
+file contains 'POSTAL-SERVICE'.
+
 ### Registering with the discovery server
 Add the following dependency to your projects `pom.xml`...
 ```

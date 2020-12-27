@@ -1,4 +1,4 @@
-package com.services.registryclient.service;
+package distributedimagination.eureka.service;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class RegistryClientService {
+public class RegistryService {
 
     @Autowired
     private EurekaClient eurekaClient;
@@ -21,7 +21,7 @@ public class RegistryClientService {
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
             for (InstanceInfo instance: application.getInstances()) {
-                if (instance.getAppName().substring(15).equals("POSTAL-SERVICE-"))
+                if (instance.getAppName().contains("POSTAL-SERVICE"))
                     postalServices.put(instance.getAppName(), instance.getHomePageUrl());
             }
 

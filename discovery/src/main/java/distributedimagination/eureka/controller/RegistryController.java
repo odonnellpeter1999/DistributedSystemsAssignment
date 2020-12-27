@@ -1,6 +1,6 @@
-package com.services.registryclient.controller;
+package distributedimagination.eureka.controller;
 
-import com.services.registryclient.service.RegistryClientService;
+import distributedimagination.eureka.service.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +11,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
-public class RegistryClientController {
+public class RegistryController {
 
-    private final RegistryClientService registryClientService;
+    private final RegistryService registryService;
 
     @Autowired
-    public RegistryClientController(RegistryClientService registryClientService) {
-        this.registryClientService = registryClientService;
+    public RegistryController(RegistryService registryService) {
+        this.registryService = registryService;
     }
 
     @GetMapping
     public Map<String, String> getAllParcels() {
-        return registryClientService.getPostalServices();
+        return registryService.getPostalServices();
     }
 }
