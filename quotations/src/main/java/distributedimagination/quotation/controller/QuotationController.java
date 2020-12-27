@@ -24,13 +24,13 @@ public class QuotationController {
     private EurekaClient eurekaClient;
 
     @RequestMapping(value = "/service-instances/list")
-    public Map getApplications() {
-        Map<Integer, String> serviceInstances = new HashMap<>();
+    public ArrayList<String> getApplications() {
+        ArrayList<String> serviceInstances = new ArrayList<String>();
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
             for (InstanceInfo instance : application.getInstances()) {
                 if (instance.getAppName().contains("POSTAL-SERVICE-"))
-                    serviceInstances.put(instance.getPort(), instance.getAppName());
+                    serviceInstances.add(instance.getHomePageUrl());
             }
         }
         return serviceInstances;
@@ -40,14 +40,11 @@ public class QuotationController {
     public ArrayList<String> getQuotationsList() throws URISyntaxException {
         ArrayList<String> quotations = new ArrayList<String>();
         quotations.add("Test Quote");
-        Map<Integer, String> serviceInstances = getApplications();
-        Iterator<Map.Entry<Integer, String>> it = serviceInstances.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Map.Entry<Integer, String> itMap = it.next();
-            String applicationName = itMap.getValue();
-            String port = itMap.getValue();
-            final String baseUrl = "http://localhost:" + port + "/" + applicationName + "/quote";
+        ArrayList<String> serviceInstances = getApplications();
+        Iterator<String> iterator = serviceInstances.iterator();
+        while (iterator.hasNext()) {
+            String appURL = iterator.next();
+            final String baseUrl = appURL + "/quote";
             URI uri = new URI(baseUrl);
             RestTemplate restTemplate = new RestTemplate();
             HttpEntity<String> requestEntity = new HttpEntity<>(null);
