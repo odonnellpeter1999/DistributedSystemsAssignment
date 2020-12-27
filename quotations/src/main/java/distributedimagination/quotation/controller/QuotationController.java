@@ -28,7 +28,7 @@ public class QuotationController {
     @Autowired
     private EurekaClient eurekaClient;
 
-    public Map<String, String> serviceInstances = new HashMap<>();
+    public Map<Integer, String> serviceInstances = new HashMap<>();
 
     @RequestMapping(value = "/service-instances/list")
     public Map getApplications() {
@@ -36,7 +36,7 @@ public class QuotationController {
         for (Application application : applications) {
             for (InstanceInfo instance : application.getInstances()) {
                 if (instance.getAppName().contains("POSTAL-SERVICE-"))
-                    serviceInstances.put(instance.getAppName(), instance.getHomePageUrl());
+                    serviceInstances.put(instance.getPort(), instance.getAppName());
             }
         }
         return serviceInstances;
