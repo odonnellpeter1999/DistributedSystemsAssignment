@@ -31,6 +31,7 @@ services:
       dockerfile: Dockerfile
       context: router
     image: distributed_imagination/router:0.0.1-SNAPSHOT
+<<<<<<< HEAD
     environment:
       - JAVA_OPTS=
          -DEUREKA_URI1=http://discovery:8761/eureka
