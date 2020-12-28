@@ -7,7 +7,6 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,13 +50,15 @@ public class Order {
     private Double destinationLat;
 
     // Values determined by server, do not need to be validated
-    private Double locationLon;
-    private Double locationLat;
     private Double cost;
     private Date dateOrder;
     private Date dateDelivery;
     private transient String serviceName;
     private transient String serviceId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "facilityOid", referencedColumnName = "oid")
+    private Facility facility;
 
     @NotEmpty
     @Valid

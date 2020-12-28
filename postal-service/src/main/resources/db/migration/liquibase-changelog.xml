@@ -5,6 +5,21 @@
 
     <changeSet author="David (generated)" id="1533125034533-1">
 
+        <createTable tableName="facilities">
+            <column autoIncrement="false" name="oid" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
         <createTable tableName="orders">
             <column autoIncrement="false" name="oid" type="UUID">
                 <constraints primaryKey="true"/>
@@ -21,11 +36,8 @@
             <column name="destination_lat" type="DOUBLE">
                 <constraints nullable="false"/>
             </column>
-            <column name="location_lon" type="DOUBLE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="location_lat" type="DOUBLE">
-                <constraints nullable="false"/>
+            <column name="facility_oid" type="UUID">
+                <constraints nullable="true" foreignKeyName="fk_facility_oid" referencedTableName="facilities" referencedColumnNames="oid"/>
             </column>
             <column name="cost" type="DOUBLE">
                 <constraints nullable="false"/>
@@ -55,9 +67,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="order_oid" type="UUID">
-                <constraints nullable="false" foreignKeyName="fk_order_oid" referencedTableName="orders"
-                             referencedColumnNames="oid"/>
+                <constraints nullable="false" foreignKeyName="fk_order_oid" referencedTableName="orders" referencedColumnNames="oid"/>
             </column>
         </createTable>
+
     </changeSet>
 </databaseChangeLog>

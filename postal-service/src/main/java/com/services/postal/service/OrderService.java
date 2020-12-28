@@ -35,8 +35,6 @@ public class OrderService {
             parcel.setOrder(application); // FK reference parcel -> order
         }
         application.setDateOrder(new Date()); // Set current date as order date
-        application.setLocationLon(application.getSourceLon()); // Set current location to source location
-        application.setLocationLat(application.getSourceLat()); // Set current location to source location
         application.calcCost(this.DeliveryCostMultiplier); // Calculate cost
         application.calcDelivery(); // Calculate expected delivery date
         
