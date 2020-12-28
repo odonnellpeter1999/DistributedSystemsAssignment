@@ -11,6 +11,7 @@
         <module>demo-service</module>
         <module>router</module>
         <module>postal-service</module>
+        <module>quotations</module>
     </modules>
 
     <properties>
