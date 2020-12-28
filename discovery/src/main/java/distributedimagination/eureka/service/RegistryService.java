@@ -14,17 +14,17 @@ public class RegistryService {
     @Autowired
     private EurekaClient eurekaClient;
 
-    public List<String> getPostalServices() {
-        Set<String> postalServices = new HashSet<>();
+    public List<InstanceInfo> getPostalServices() {
+        Set<InstanceInfo> postalServices = new HashSet<>();
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
             for (InstanceInfo instance: application.getInstances()) {
-                if (instance.getAppName().contains("POSTAL-SERVICE"))
-                    postalServices.add(instance.getHomePageUrl());
+                if (instance.getAppName().contains("POSTALSERVICE"))
+                    postalServices.add(instance);
             }
 
         }
-        return new ArrayList<String>(postalServices);
+        return new ArrayList<InstanceInfo>(postalServices);
     }
 
 }

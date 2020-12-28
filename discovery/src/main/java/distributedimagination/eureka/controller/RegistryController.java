@@ -1,5 +1,6 @@
 package distributedimagination.eureka.controller;
 
+import com.netflix.appinfo.InstanceInfo;
 import distributedimagination.eureka.service.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ public class RegistryController {
     }
 
     @GetMapping
-    public List<String> getAllParcels() {
+    public List<InstanceInfo> getAllParcels() {
         return registryService.getPostalServices();
     }
 }
