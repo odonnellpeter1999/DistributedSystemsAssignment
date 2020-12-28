@@ -25,6 +25,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    metadata-map:
+      service-name: ${PostalServiceName}
+      service-id: ${PostalServiceId}
 
 #ref: https://springdoc.org/
 springdoc:
@@ -33,18 +37,20 @@ springdoc:
     enabled: true
 
   swagger-ui:
-    path: /a/swagger.html
+    path: /swagger.html
     enabled: true
     filter: true
-    display-request-duration: true
-    urls-primary-name: TestName
 
-  paths-to-match: /v1
   show-actuator: true
   auto-tag-classes: true
   use-fqn: true
   writer-with-order-by-keys: true
 
 server:
+  port: 8080
   error:
     include-message: always
+
+DeliveryCostMultiplier: 0.69
+PostalServiceName: DHL
+PostalServiceId: dhl

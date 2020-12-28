@@ -32,12 +32,12 @@ hs_err_pid*
 *.iml
 *.iws
 
+# Studio Code
+.vscode/
+
 # Mac
 .DS_Store
 
 # Maven
 log/
 target/
-
-# VScode
-.vscode/
