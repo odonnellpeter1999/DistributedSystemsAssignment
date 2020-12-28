@@ -54,6 +54,10 @@ public class OrderService {
         return bookings;
     }
 
+    public List<Order> getActiveOrders() {
+        return orderRepository.getActiveOrders();
+    }
+
     public Optional<Order> getOrderById(String id) {
         try {
             return orderRepository.findById(UUID.fromString(id));
