@@ -50,11 +50,11 @@ public class Order {
     private Double destinationLat;
 
     // Values determined by server, do not need to be validated
-    private Double cost;
-    private Date dateOrder;
-    private Date dateDelivery;
-    private transient String serviceName;
-    private transient String serviceId;
+    private Double cost; // Total cost of the order
+    private Date dateOrder; // Date order was placed
+    private Date dateDelivery; // Expected delivery date or delivery date (if in past)
+    private transient String serviceName; // Not stored to database
+    private transient String serviceId; // Not stored to database
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "facilityOid", referencedColumnName = "oid")
@@ -65,14 +65,39 @@ public class Order {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
     private List<Parcel> parcels;
 
-    public void calcCost(Double serviceMultiplier) {
+    /**
+     * Getter for status of order, determined by internal properties.
+     * @return String - Status of order
+     */
+    public String getStatus() {
+        if (this.oid == null) {
+            return "QUOTATION"; // Order has not been placed yet
+        }
+        if (this.dateDelivery.getTime() < new Date().getTime()) {
+            return "DELIVERED"; // Order has been delivered 
+        }
+        if (this.facility == null) {
+            return "ORDER CONFIRMED"; // Order is still at source but placed
+        }
+        return "AT SORTING FACILITY"; // Order is at a sorting facility
+    }
+
+    /**
+     * Calculates the total cost of this order based on
+     * the total weight, volume and distance.
+     * @param multiplier - Multiply the calculates cost with this constant
+     */
+    public void calcCost(Double multiplier) {
         Double costDistance = this.calcDistance() * 0.000001;
         Double costVolume = this.calcVolume() * 0.0001;
         Double costWeight = this.calcWeight() * 1.25;
-        Double cost = (costDistance + costVolume + costWeight) * serviceMultiplier;
+        Double cost = (costDistance + costVolume + costWeight) * multiplier;
         this.cost = (double) Math.round(cost * 100) / 100;
     }
 
+    /**
+     * Calculates the expected delivery date and sets the dateDelivery field.
+     */
     public void calcDelivery() {
         int expectedDays = (int) Math.ceil(this.calcDistance() / 200000); // 200km a day?
         Calendar cal = Calendar.getInstance();
@@ -81,6 +106,10 @@ public class Order {
         this.dateDelivery = cal.getTime(); // Set expected delivery date
     }
 
+    /**
+     * Calculates the total weight of all parcels included in this order.
+     * @return Double - weight in kg
+     */
     private double calcWeight() {
         double result = 0.;
         for (Parcel parcel : this.getParcels()) {
@@ -89,6 +118,11 @@ public class Order {
         return result;
     }
 
+
+    /**
+     * Calculates the total volume of all parcels included in this order.
+     * @return Double - volume in cm^3
+     */
     private double calcVolume() {
         double result = 0.;
         for (Parcel parcel : this.getParcels()) {
@@ -98,10 +132,8 @@ public class Order {
     }
 
     /**
-     * Calculate distance between two points in latitude and longitude.
-     * 
-     * lat1, lon1 Start point lat2, lon2 End point
-     * @returns Distance in Meters
+     * Calculates the distance between source and destination.
+     * @return Distance in Meters
      */
     private double calcDistance() {
         final int R = 6371; // Radius of the earth
