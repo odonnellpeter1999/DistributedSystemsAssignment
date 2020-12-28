@@ -24,7 +24,7 @@ services:
       - discovery
     ports:
       - 8762:8762
-      -
+
   postal-service:
     image: distributed_imagination/postal-service:0.0.1
     environment:
@@ -43,6 +43,7 @@ services:
       - database.env # configure postgres
     ports: 
       - 5432:5432
+
 
   quotations:
     image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
