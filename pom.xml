@@ -9,7 +9,6 @@
         <module>template</module>
         <module>quotations</module>
         <module>discovery</module>
-        <module>demo-service</module>
         <module>router</module>
         <module>postal-service</module>
 
