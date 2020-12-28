@@ -14,3 +14,34 @@ services:
       - discovery
     ports:
       - 8762:8762
+
+  postal-service:
+    image: distributed_imagination/postal-service:0.0.1
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_URI=http://discovery:8761/eureka
+        -Dspring.profiles.active=local
+    depends_on:
+      - discovery
+      - database
+    ports:
+      - 8408:8408
+
+  database:
+    image: "postgres" # use latest official postgres version
+    env_file:
+      - database.env # configure postgres
+    ports: 
+      - 5432:5432
+
+
+  quotations:
+    image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+    ports:
+      - 8800:8800
+

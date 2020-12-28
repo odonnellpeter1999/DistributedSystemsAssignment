@@ -1,0 +1,63 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="David (generated)" id="1533125034533-1">
+
+        <createTable tableName="orders">
+            <column autoIncrement="false" name="oid" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="source_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destination_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destination_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_order" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_delivery" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="parcels">
+            <column autoIncrement="false" name="oid" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="weight_kg" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length_cm" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="width_cm" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="height_cm" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_oid" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_order_oid" referencedTableName="orders"
+                             referencedColumnNames="oid"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
