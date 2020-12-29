@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistryController {
 
     private final RegistryService registryService;
@@ -22,8 +21,8 @@ public class RegistryController {
         this.registryService = registryService;
     }
 
-    @GetMapping
-    public List<InstanceInfo> getAllParcels() {
+    @RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<InstanceInfo> getPostalServiceInstances() {
         return registryService.getPostalServices();
     }
 
@@ -31,6 +30,8 @@ public class RegistryController {
     public Map<String, String> getPostalServiceURLs() {
         return registryService.getPostalURLs();
     }
+
 }
+
 
 
