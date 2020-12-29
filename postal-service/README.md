@@ -31,6 +31,21 @@ Note: H2-console not available when running dockerised version, access blocked.
 - Override parameters:
   - `mvn spring-boot:run -Dspring-boot.run.arguments="--DeliveryCostMultiplier=0.89 --PostalServiceName=AnPost --PostalServiceId=anp"`
 
+## Simulation of Packages
+
+Simulation of orders works as follows:
+
+- Order is placed, expected delivery time is calculated using the input parameter `DeliverySpeed` (see below, in m/s)
+- Simulator runs every `SimulationInterval` ms (see below)
+- For each order that has not been delivered (`dateDelivered` property is null)
+  - Calculate total delivery duration (expected delivery date - date ordered)
+  - Divide this duration into 4 phases
+    - Phase 0: order confirmed but still at source location
+    - Phase 1: order at sorting facility closest to source location
+    - Phase 2: order at sorting facility closest to destination location
+    - Phase 3: order delivered
+  - Update entity (db) properties accordingly
+
 ## Parameters
 
 Default parameters as listed in application.properties:
