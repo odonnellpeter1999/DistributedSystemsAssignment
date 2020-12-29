@@ -1,11 +1,5 @@
 package distributedimagination.quotation.controller;
 
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
-
-import jdk.nashorn.internal.parser.JSONParser;
-import org.h2.util.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -13,9 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import javax.json.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -24,25 +15,9 @@ import java.util.stream.Collectors;
 @SpringBootApplication
 @RestController
 public class QuotationController {
-    @Autowired
-    private EurekaClient eurekaClient;
-
-//    @RequestMapping(value = "/service-instances/list")
-//    public ArrayList<String> getApplications() {
-//        ArrayList<String> serviceInstances = new ArrayList<String>();
-//        List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
-//        for (Application application : applications) {
-//            for (InstanceInfo instance : application.getInstances()) {
-//                if (instance.getAppName().contains("POSTAL-SERVICE-"))
-//                    serviceInstances.add(instance.getHomePageUrl());
-//            }
-//        }
-//        return serviceInstances;
-//    }
 
     @RequestMapping(value = "/service-instances/quotations")
     public ArrayList<String> getQuotationsList() throws URISyntaxException {
-
         ArrayList<String> quotations = new ArrayList<>();
         ArrayList<String> instances = new ArrayList<>();
 
@@ -56,14 +31,7 @@ public class QuotationController {
                 .map(s -> s.split(":"))
                 .collect(Collectors.toMap(s -> s[0], s -> s[1]));
 
-        quotations.add(map.get("homePageUrl"));
-
-
-
-        String instance = parse.getFirst("homePageUrl").toString();
-
-        instances.add(instance);
-
+        instances.add(map.get("homePageUrl"));
         Iterator<String> iterator = instances.iterator();
 
         while (iterator.hasNext()) {
