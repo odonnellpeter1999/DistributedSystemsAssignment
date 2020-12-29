@@ -25,4 +25,11 @@ public class RegistryController {
     public List<InstanceInfo> getAllParcels() {
         return registryService.getPostalServices();
     }
+
+    @RequestMapping(value = "/postal-services/urls", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getPostalServiceURLs() {
+        return registryService.getPostalURLs();
+    }
 }
+
+
