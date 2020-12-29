@@ -51,8 +51,9 @@ public class Order {
 
     // Values determined by server, do not need to be validated
     private Double cost; // Total cost of the order
-    private Date dateOrder; // Date order was placed
-    private Date dateDelivery; // Expected delivery date or delivery date (if in past)
+    private Date dateOrdered; // Date order was placed
+    private Date dateExpected; // Expected delivery date
+    private Date dateDelivered; // Date order was delivered
     private transient String serviceName; // Not stored to database
     private transient String serviceId; // Not stored to database
 
@@ -73,17 +74,17 @@ public class Order {
         if (this.oid == null) {
             return "QUOTATION"; // Order has not been placed yet
         }
-        if (this.dateDelivery.getTime() < new Date().getTime()) {
+        if (this.dateDelivered != null) {
             return "DELIVERED"; // Order has been delivered 
         }
-        if (this.facility == null) {
-            return "ORDER CONFIRMED"; // Order is still at source but placed
+        if (this.facility != null) {
+            return "AT SORTING FACILITY"; // Order is still at source but placed
         }
-        return "AT SORTING FACILITY"; // Order is at a sorting facility
+        return "ORDER CONFIRMED";
     }
 
     /**
-     * Calculates the total cost of this order based on
+     * Calculates and sets the total cost of this order based on
      * the total weight, volume and distance.
      * @param multiplier - Multiply the calculates cost with this constant
      */
@@ -96,14 +97,16 @@ public class Order {
     }
 
     /**
-     * Calculates the expected delivery date and sets the dateDelivery field.
+     * Calculates and sets the expected delivery date based on
+     * delivery speed, distance and order date.
+     * @param speed Double - in meters per second
      */
-    public void calcDelivery() {
-        int expectedDays = (int) Math.ceil(this.calcDistance() / 200000); // 200km a day?
+    public void calcDateExpected(Double speed) {
+        int expectedSeconds = (int) Math.ceil(this.calcDistance() / speed); // 200km a day?
         Calendar cal = Calendar.getInstance();
-        cal.setTime(this.dateOrder);
-        cal.add(Calendar.DATE, expectedDays);
-        this.dateDelivery = cal.getTime(); // Set expected delivery date
+        cal.setTime(this.dateOrdered);
+        cal.add(Calendar.SECOND, expectedSeconds);
+        this.dateExpected = cal.getTime(); // Set expected delivery date
     }
 
     /**
@@ -117,7 +120,6 @@ public class Order {
         }
         return result;
     }
-
 
     /**
      * Calculates the total volume of all parcels included in this order.

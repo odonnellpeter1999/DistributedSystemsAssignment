@@ -10,7 +10,7 @@ import java.util.UUID;
 @Transactional
 public interface OrderRepository extends JpaRepository<Order, UUID> {
 
-    @Query(value = "SELECT * FROM ORDERS p WHERE p.date_delivery >= CURDATE()", nativeQuery = true)
+    @Query(value = "SELECT * FROM ORDERS AS p WHERE p.DATE_DELIVERED IS NULL", nativeQuery = true)
     List<Order> getActiveOrders();
 
 }

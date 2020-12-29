@@ -53,6 +53,7 @@ server:
     include-message: always
 
 DeliveryCostMultiplier: 0.69
-SimulationInterval: 10000
+SimulationInterval: 5000
+DeliverySpeed: 10000
 PostalServiceName: DHL
 PostalServiceId: dhl

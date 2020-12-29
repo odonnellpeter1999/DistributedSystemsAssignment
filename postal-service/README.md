@@ -31,7 +31,7 @@ Note: H2-console not available when running dockerised version, access blocked.
 - Override parameters:
   - `mvn spring-boot:run -Dspring-boot.run.arguments="--DeliveryCostMultiplier=0.89 --PostalServiceName=AnPost --PostalServiceId=anp"`
 
-## Default Parameters
+## Parameters
 
 Default parameters as listed in application.properties:
 
@@ -40,3 +40,5 @@ Default parameters as listed in application.properties:
 - DeliveryCostMultiplier=0.69 (used to simulate differences between postal services)
 - PostalServiceName=DHL
 - PostalServiceId=dhl
+- DeliverySpeed=10000 (meters per second, used to calculate expected delivery date)
+- SimulationInterval=5000 (ms, interval between simulator runs)
