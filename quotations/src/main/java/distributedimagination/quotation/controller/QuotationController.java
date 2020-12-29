@@ -17,7 +17,7 @@ public class QuotationController {
     @RequestMapping("/service-instances/mapping")
     @GetMapping("http://discovery:8761/postal-services/urls")
     @ResponseBody
-    public Map<String, String> getMap(@RequestParam Map<String, String> allParams) {
+    public HashMap<String, String> getMap(@RequestParam HashMap<String, String> allParams) {
         return allParams;
     }
 
