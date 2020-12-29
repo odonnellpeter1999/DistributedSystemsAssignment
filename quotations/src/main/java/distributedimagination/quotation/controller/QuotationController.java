@@ -1,6 +1,7 @@
 package distributedimagination.quotation.controller;
 
 import distributedimagination.quotation.service.QuotationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -16,6 +17,12 @@ import java.util.*;
 public class QuotationController {
 
     QuotationService quotationService = new QuotationService();
+
+    @Autowired
+    public QuotationController(QuotationService quotationService) {
+        this.quotationService = quotationService;
+    }
+
 
     @RequestMapping(value = "/service-instances/quotations")
     public QuotationService getMap() {
