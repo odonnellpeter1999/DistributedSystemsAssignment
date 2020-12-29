@@ -1,5 +1,6 @@
 package distributedimagination.quotation.controller;
 
+import distributedimagination.quotation.service.QuotationService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -14,11 +15,11 @@ import java.util.*;
 @RestController
 public class QuotationController {
 
-    @RequestMapping("/service-instances/mapping")
-    @GetMapping("http://discovery:8761/postal-services/urls")
-    @ResponseBody
-    public HashMap<String, String> getMap(@RequestParam HashMap<String, String> allParams) {
-        return allParams;
+    QuotationService quotationService = new QuotationService();
+
+    @RequestMapping(value = "/service-instances/quotations")
+    public QuotationService getMap() {
+        return this.quotationService;
     }
 
 //    @RequestMapping(value = "/service-instances/quotations")
