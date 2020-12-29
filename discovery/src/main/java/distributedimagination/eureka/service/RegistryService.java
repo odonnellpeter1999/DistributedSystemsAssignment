@@ -27,17 +27,16 @@ public class RegistryService {
         return new ArrayList<InstanceInfo>(postalServices);
     }
 
-    public List<String> getPostalURLs() {
-        Set<String> postalServices = new HashSet<>();
+    public Map<String, String> getPostalURLs() {
+        Map<String, String> postalServices = new HashMap<>();
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
             for (InstanceInfo instance: application.getInstances()) {
                 if (instance.getAppName().contains("POSTALSERVICE"))
-                    postalServices.add(instance.getHomePageUrl());
+                    postalServices.put(instance.getMetadata().get("service-name"), instance.getHomePageUrl());
             }
-
         }
-        return new ArrayList<String>(postalServices);
+        return postalServices;
     }
 
 }
