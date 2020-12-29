@@ -8,6 +8,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import javax.servlet.http.HttpServlet;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -24,8 +26,8 @@ public class QuotationController {
     }
 
     @RequestMapping(value = "/service-instances/quotations")
-    public QuotationService getMap() {
-        return this.quotationService;
+    public String returnMap() {
+        return quotationService.getQuotes();
     }
 
 //    @RequestMapping(value = "/service-instances/quotations")
