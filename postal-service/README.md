@@ -8,7 +8,7 @@ Adds serviceName and serviceID as MetaData when registering to Discovery server.
 The API documentation is auto-generated and can be accessed through the following routes:
 
 - `/api-docs` - OpenAPI JSON docs
-- `/api-docs.yaml` - OpenAPI YAML docs
+- `/api-docs.yaml` - OpenAPI YAML doc
 - `/swagger.html` - Swagger UI docs
 
 ## Database
