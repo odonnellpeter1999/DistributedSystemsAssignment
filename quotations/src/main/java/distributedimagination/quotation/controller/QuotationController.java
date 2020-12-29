@@ -26,7 +26,7 @@ public class QuotationController {
     }
 
     @RequestMapping(value = "/service-instances/quotations")
-    public String returnMap() {
+    public Map<String, String> returnMap() {
         return quotationService.getQuotes();
     }
 
