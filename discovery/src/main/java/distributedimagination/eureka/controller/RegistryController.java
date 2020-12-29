@@ -22,7 +22,8 @@ public class RegistryController {
     }
 
     @RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<InstanceInfo> getPostalServiceInstances() {
+    @GetMapping
+    public List<InstanceInfo> getAllParcels() {
         return registryService.getPostalServices();
     }
 
@@ -30,8 +31,4 @@ public class RegistryController {
     public Map<String, String> getPostalServiceURLs() {
         return registryService.getPostalURLs();
     }
-
 }
-
-
-
