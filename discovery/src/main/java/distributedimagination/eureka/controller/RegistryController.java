@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistryController {
 
     private final RegistryService registryService;
@@ -21,8 +20,8 @@ public class RegistryController {
         this.registryService = registryService;
     }
 
-    @GetMapping
-    public List<InstanceInfo> getAllParcels() {
+    @RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<InstanceInfo> getPostalServiceInstances() {
         return registryService.getPostalServices();
     }
 
@@ -30,6 +29,8 @@ public class RegistryController {
     public List<String> getPostalServiceURLs() {
         return registryService.getPostalURLs();
     }
+
 }
+
 
 
