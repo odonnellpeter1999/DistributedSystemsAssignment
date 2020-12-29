@@ -16,13 +16,12 @@ import java.util.*;
 @RestController
 public class QuotationController {
 
-    QuotationService quotationService = new QuotationService();
+    private final QuotationService quotationService;
 
     @Autowired
     public QuotationController(QuotationService quotationService) {
         this.quotationService = quotationService;
     }
-
 
     @RequestMapping(value = "/service-instances/quotations")
     public QuotationService getMap() {
