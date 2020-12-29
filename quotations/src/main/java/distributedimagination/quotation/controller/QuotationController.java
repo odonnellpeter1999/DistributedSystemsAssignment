@@ -1,5 +1,4 @@
 package distributedimagination.quotation.controller;
-
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
@@ -8,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -38,18 +36,25 @@ public class QuotationController {
 
     @RequestMapping(value = "/service-instances/quotations")
     public ArrayList<String> getQuotationsList() throws URISyntaxException {
-        ArrayList<String> quotations = new ArrayList<String>();
-        quotations.add("Test Quote");
-        ArrayList<String> serviceInstances = getApplications();
-        Iterator<String> iterator = serviceInstances.iterator();
+
+        ArrayList<String> quotations = new ArrayList<>();
+        ArrayList<InstanceInfo> instances = new ArrayList<>();
+        String baseUrl = "http://discovery:8761/postal-services";
+        URI uri = new URI(baseUrl);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<InstanceInfo> requestEntity = new HttpEntity<>(null);
+        ResponseEntity<InstanceInfo> result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, InstanceInfo.class);
+        InstanceInfo mapped = result.getBody();
+        instances.add(mapped);
+
+        Iterator<InstanceInfo> iterator = instances.iterator();
+
         while (iterator.hasNext()) {
-            String appURL = iterator.next();
-            final String baseUrl = appURL + "/quote";
-            URI uri = new URI(baseUrl);
-            RestTemplate restTemplate = new RestTemplate();
-            HttpEntity<String> requestEntity = new HttpEntity<>(null);
-            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
-            quotations.add(result.toString());
+            String appURL = iterator.next().getHomePageUrl();
+            baseUrl = appURL + "/quote";
+            uri = new URI(baseUrl);
+            ResponseEntity<String> quote = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+            quotations.add(quote.toString());
         }
         return quotations;
     }
