@@ -1,0 +1,55 @@
+# spring.application.name=discovery
+# server.port=8761
+# eureka.client.register-with-eureka=true
+# eureka.client.fetch-registry=true
+
+spring:
+  profiles: default
+server:
+  port: 8761  
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/ 
+
+---
+  
+spring:
+  profiles: peer-1
+  application:
+    name: discovery
+server:
+  port: 8761  
+eureka:
+  instance:
+    hostname: localhost
+  server:
+    enableSelfPreservation: true    
+  client:
+    registerWithEureka: true
+    fetchRegistry: true       
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:9002/eureka}
+       
+---
+
+spring:
+  profiles: peer-2
+  application:
+    name: discovery-peer
+server:
+  port: 9002
+eureka:
+  instance:
+    hostname: localhost     
+  server:
+    enableSelfPreservation: true     
+  client:
+    registerWithEureka: true
+    fetchRegistry: true       
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}

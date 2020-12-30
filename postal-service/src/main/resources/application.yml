@@ -24,12 +24,13 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_URI1:http://localhost:8761/eureka},${EUREKA_URI2:http://localhost:9002/eureka}
   instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
     metadata-map:
       service-name: ${PostalServiceName}
       service-id: ${PostalServiceId}
-
 #ref: https://springdoc.org/
 springdoc:
   api-docs:
