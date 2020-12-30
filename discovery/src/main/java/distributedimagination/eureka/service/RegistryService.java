@@ -15,7 +15,7 @@ public class RegistryService {
     @Autowired
     private EurekaClient eurekaClient;
 
-    public PostalServiceInstances getPostalServiceInstances() {
+    public List<InstanceInfo> getPostalServiceInstances() {
         Set<InstanceInfo> postalServices = new HashSet<>();
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
@@ -24,7 +24,7 @@ public class RegistryService {
                     postalServices.add(instance);
             }
         }
-        return new PostalServiceInstances(new ArrayList<InstanceInfo>(postalServices));
+        return new ArrayList<InstanceInfo>(postalServices);
     }
 
     public Map<String, String> getPostalURLs() {
