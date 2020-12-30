@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TrackingApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TrackingService.class, args);
+        SpringApplication.run(TrackingApplication.class, args);
     }
 }
 
