@@ -60,11 +60,16 @@ public class OrderService {
         // Set Postal serviceName and serviceId (not able to set this in beans as it's a spring-boot input variable)
         order.setServiceName(this.serviceName);
         order.setServiceId(this.serviceId);
+        if (order.getOid() != null) {
+            // Order has been placed, set tracking ID
+            order.setTrackingId(this.serviceId + "-" + order.getOid());
+        }
         return order;
     }
 
     public Order saveOrder(Order order) {
-        return this.orderRepository.saveAndFlush(order);
+        Order savedOrder = this.orderRepository.saveAndFlush(order);
+        return this.addServiceDetails(savedOrder);
     }
 
     public List<Order> getAllOrders() {
@@ -79,6 +84,7 @@ public class OrderService {
 
     public Optional<Order> getOrderById(String id) {
         try {
+            id = id.replace(this.serviceId + "-", ""); // Replace tracking ID
             return orderRepository.findById(UUID.fromString(id));
         } catch (IllegalArgumentException e) {
             throw new NoSuchOrderException();

@@ -56,6 +56,7 @@ public class Order {
     private Date dateDelivered; // Date order was delivered
     private transient String serviceName; // Not stored to database
     private transient String serviceId; // Not stored to database
+    private transient String trackingId; // PostalServiceId + Oid
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "facilityOid", referencedColumnName = "oid")
