@@ -13,7 +13,7 @@ The API documentation is auto-generated and can be accessed through the followin
 
 ## Database
 
-H2 in-memory database is used. Login details are defined in application.properties file. UI accessable through:
+H2 in-memory database can be used by uncommenting lines in application and liquibase properties files (default is PostgreSQL). If used, login details are defined in application.properties file. UI accessable through:
 
 - `/h2-console`
 - JDBC URL=jdbc:h2:mem:testdb
