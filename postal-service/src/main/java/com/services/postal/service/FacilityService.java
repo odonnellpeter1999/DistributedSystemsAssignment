@@ -21,7 +21,7 @@ public class FacilityService {
      * @return Facility closest to input coordinate
      */
     public Facility findClosestFacility(Double lon, Double lat) {
-        return this.facilityRepository.findClosestFacility(lon.toString(), lat.toString());
+        return this.facilityRepository.findClosestFacility(lon, lat);
     }
     
 }

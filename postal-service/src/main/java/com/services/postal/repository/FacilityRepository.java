@@ -13,15 +13,15 @@ public interface FacilityRepository extends JpaRepository<Facility, UUID> {
     @Query(value = "SELECT *," +
     "(" +
         "6371 * " +
-        "acos(cos(radians(:lon)) * " +
-        "cos(radians(LOCATION_LAT)) * " +
-        "cos(radians(LOCATION_LON) - " +
-        "radians(:lat)) + " +
-        "sin(radians(:lon)) * " +
-        "sin(radians(LOCATION_LAT)))" +
+        "ACOS(COS(RADIANS(:lon)) * " +
+        "COS(RADIANS(LOCATION_LAT)) * " +
+        "COS(RADIANS(LOCATION_LON) - " +
+        "RADIANS(:lat)) + " +
+        "SIN(RADIANS(:lon)) * " +
+        "SIN(RADIANS(LOCATION_LAT)))" +
      ") AS distance " +
      "FROM FACILITIES " +
      "ORDER BY distance LIMIT 1", nativeQuery = true)
-    Facility findClosestFacility(@Param("lon") String lon, @Param("lat") String lat);
+    Facility findClosestFacility(@Param("lon") Double lon, @Param("lat") Double lat);
 
 }
