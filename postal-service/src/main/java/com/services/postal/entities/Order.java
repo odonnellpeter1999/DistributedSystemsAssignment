@@ -7,7 +7,6 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Value;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,35 +50,69 @@ public class Order {
     private Double destinationLat;
 
     // Values determined by server, do not need to be validated
-    private Double locationLon;
-    private Double locationLat;
-    private Double cost;
-    private Date dateOrder;
-    private Date dateDelivery;
-    private transient String serviceName;
-    private transient String serviceId;
+    private Double cost; // Total cost of the order
+    private Date dateOrdered; // Date order was placed
+    private Date dateExpected; // Expected delivery date
+    private Date dateDelivered; // Date order was delivered
+    private transient String serviceName; // Not stored to database
+    private transient String serviceId; // Not stored to database
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "facilityOid", referencedColumnName = "oid")
+    private Facility facility;
 
     @NotEmpty
     @Valid
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
     private List<Parcel> parcels;
 
-    public void calcCost(Double serviceMultiplier) {
+    /**
+     * Getter for status of order, determined by internal properties.
+     * @return String - Status of order
+     */
+    public String getStatus() {
+        if (this.oid == null) {
+            return "QUOTATION"; // Order has not been placed yet
+        }
+        if (this.dateDelivered != null) {
+            return "DELIVERED"; // Order has been delivered 
+        }
+        if (this.facility != null) {
+            return "AT SORTING FACILITY"; // Order is still at source but placed
+        }
+        return "ORDER CONFIRMED";
+    }
+
+    /**
+     * Calculates and sets the total cost of this order based on
+     * the total weight, volume and distance.
+     * @param multiplier - Multiply the calculates cost with this constant
+     */
+    public void calcCost(Double multiplier) {
         Double costDistance = this.calcDistance() * 0.000001;
         Double costVolume = this.calcVolume() * 0.0001;
         Double costWeight = this.calcWeight() * 1.25;
-        Double cost = (costDistance + costVolume + costWeight) * serviceMultiplier;
+        Double cost = (costDistance + costVolume + costWeight) * multiplier;
         this.cost = (double) Math.round(cost * 100) / 100;
     }
 
-    public void calcDelivery() {
-        int expectedDays = (int) Math.ceil(this.calcDistance() / 200000); // 200km a day?
+    /**
+     * Calculates and sets the expected delivery date based on
+     * delivery speed, distance and order date.
+     * @param speed Double - in meters per second
+     */
+    public void calcDateExpected(Double speed) {
+        int expectedSeconds = (int) Math.ceil(this.calcDistance() / speed); // 200km a day?
         Calendar cal = Calendar.getInstance();
-        cal.setTime(this.dateOrder);
-        cal.add(Calendar.DATE, expectedDays);
-        this.dateDelivery = cal.getTime(); // Set expected delivery date
+        cal.setTime(this.dateOrdered);
+        cal.add(Calendar.SECOND, expectedSeconds);
+        this.dateExpected = cal.getTime(); // Set expected delivery date
     }
 
+    /**
+     * Calculates the total weight of all parcels included in this order.
+     * @return Double - weight in kg
+     */
     private double calcWeight() {
         double result = 0.;
         for (Parcel parcel : this.getParcels()) {
@@ -88,6 +121,10 @@ public class Order {
         return result;
     }
 
+    /**
+     * Calculates the total volume of all parcels included in this order.
+     * @return Double - volume in cm^3
+     */
     private double calcVolume() {
         double result = 0.;
         for (Parcel parcel : this.getParcels()) {
@@ -97,10 +134,8 @@ public class Order {
     }
 
     /**
-     * Calculate distance between two points in latitude and longitude.
-     * 
-     * lat1, lon1 Start point lat2, lon2 End point
-     * @returns Distance in Meters
+     * Calculates the distance between source and destination.
+     * @return Distance in Meters
      */
     private double calcDistance() {
         final int R = 6371; // Radius of the earth

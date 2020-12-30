@@ -8,10 +8,10 @@
 		<version>2.4.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>distributedimagination</groupId>
+	<groupId>group-project</groupId>
 	<artifactId>discovery</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>disovery</name>
+	<version>0.0.1</version>
+	<name>discovery</name>
 	<description>Eureka for assignment 2</description>
 
 	<properties>
@@ -20,6 +20,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>group-project</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

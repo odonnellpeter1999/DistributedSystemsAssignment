@@ -22,7 +22,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -56,12 +55,6 @@ public class OrderController {
         return new ResponseEntity<>(newOrder, headers, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Get list of orders", description = "Endpoint for retrieving list of all orders")
-    @GetMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Order> getAllOrders() {
-        return orderService.getAllOrders();
-    }
-
     @Operation(summary = "Get specific order", description = "Endpoint for retrieving specific order")
     @GetMapping(value = "/track/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Order getOrderById(@PathVariable("orderId") String orderId) {
@@ -71,7 +64,7 @@ public class OrderController {
             throw new NoSuchOrderException();
         } 
 
-        return order.get();
+        return this.orderService.addServiceDetails(order.get());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -3,9 +3,15 @@ spring:
   application:
     name: postalservice
   datasource:
+    ## POSTGRESQL DB
     url: jdbc:postgresql://database:5432/
     username: postgres
     password: password
+    ## H2 MEMORY DB
+    # url: jdbc:h2:mem:testdb
+    # driver-class-name: org.h2.Driver
+    # username: sa
+    # password: password
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -53,5 +59,7 @@ server:
     include-message: always
 
 DeliveryCostMultiplier: 0.69
+SimulationInterval: 5000
+DeliverySpeed: 10000
 PostalServiceName: DHL
 PostalServiceId: dhl
