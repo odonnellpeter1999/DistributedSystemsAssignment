@@ -2,11 +2,10 @@ package distributedimagination.quotation.controller;
 
 import distributedimagination.quotation.service.QuotationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
-@SpringBootApplication
+
 @RestController
 public class QuotationController {
 
@@ -17,7 +16,7 @@ public class QuotationController {
         this.quotationService = quotationService;
     }
 
-    @RequestMapping(value = "/service-instances/quotations")
+    @RequestMapping(value = "/service-instances/quotations/list")
     public Map<String, String> returnMap() {
         return quotationService.getQuotes();
     }
