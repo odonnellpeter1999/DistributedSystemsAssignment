@@ -23,7 +23,7 @@ public class QuotationService {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String appURL = entry.getValue();
+            String appURL = entry.getValue() + "/quote";
             String name = entry.getKey();
             RestTemplate restTemplates = new RestTemplate();
             quotations.add(restTemplates.getForObject(appURL, String.class));
