@@ -1,9 +1,12 @@
 version: '3'
 services:
   discovery:
-    image: distributed_imagination/discovery:0.0.1-SNAPSHOT
+    image: distributed_imagination/discovery:0.0.1
     ports:
       - 8761:8761
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
 
   router:
     image: distributed_imagination/router:0.0.1-SNAPSHOT
