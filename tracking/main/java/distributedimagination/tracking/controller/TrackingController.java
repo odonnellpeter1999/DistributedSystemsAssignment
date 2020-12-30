@@ -1,26 +1,18 @@
 package distributedimagination.tracking.controller;
 
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import com.netflix.discovery.shared.Application;
-import com.netflix.discovery.shared.Applications;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import distributedimagination.tracking.service.TrackingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
-import javax.ws.rs.GET;
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.servlet.http.HttpServlet;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
 
 @SpringBootApplication
 @RestController
