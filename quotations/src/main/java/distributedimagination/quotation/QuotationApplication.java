@@ -5,11 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 
-public class QuotationService {
+public class QuotationApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QuotationService.class, args);
     }
 
 }
-
