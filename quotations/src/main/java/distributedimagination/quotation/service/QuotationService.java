@@ -1,12 +1,14 @@
 package distributedimagination.quotation.service;
 
+import com.google.gson.Gson;
 import distributedimagination.quotation.entity.OrderQuery;
 import distributedimagination.quotation.entity.ParcelQuery;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,7 +16,7 @@ import java.util.Map;
 @Service
 public class QuotationService {
 
-    private OrderQuery orderQuery;
+    private OrderQuery orderQuery = GenerateOrderTest();
 
     public OrderQuery GenerateOrderTest() {
         ParcelQuery testParcel = new ParcelQuery(100.0, 100.0, 100.0, 100.0);
@@ -35,20 +37,25 @@ public class QuotationService {
     }
 
 
+
+
     public ArrayList<String> getQuotationsList() {
         Map<String, String> map = getQuotes();
-        orderQuery = GenerateOrderTest();
         ArrayList<String> quotations = new ArrayList<>();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String name = entry.getKey();
-            quotations.add(entry.getValue());
-            String appURL = entry.getValue() + "quote";
-            quotations.add(name + ":" + appURL);
-            HttpEntity<String> requestEntity = new HttpEntity<String>(orderQuery.toString());
             RestTemplate restTemplates = new RestTemplate();
-            quotations.add(restTemplates.postForObject(appURL, requestEntity, String.class));
+
+            String name = entry.getKey();
+            String appURL = entry.getValue() + "quote";
+
+            Gson g = null;
+            String jsonString = g.toJson(orderQuery);
+            HttpEntity<String> request = new HttpEntity<>(jsonString);
+            ResponseEntity<String> responseEntity = restTemplates.postForEntity(appURL, request, String.class);
+
+            quotations.add(responseEntity.getBody());
         }
         return quotations;
     }
