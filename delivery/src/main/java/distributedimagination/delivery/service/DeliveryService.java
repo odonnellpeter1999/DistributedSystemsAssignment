@@ -19,11 +19,11 @@ public class DeliveryService {
 
     public ArrayList<String> getDeliveryList() {
         ArrayList<String> delivery = new ArrayList<String>();
-        ArrayList<String> map = getLocations();
+        Map<String, String> map = getLocations();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String appURL = entry.getValue();
+            String appURL = entry.getValue() + "/deliveryDate";
             String name = entry.getKey();
             RestTemplate restTemplates = new RestTemplate();
             delivery.add(restTemplates.getForObject(appURL, String.class));

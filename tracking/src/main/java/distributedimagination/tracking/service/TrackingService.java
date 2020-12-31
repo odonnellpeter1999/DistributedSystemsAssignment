@@ -19,11 +19,11 @@ public class TrackingService {
 
     public ArrayList<String> getTrackingList() {
         ArrayList<String> tracking = new ArrayList<String>();
-        ArrayList<String> map = getLocations();
+        Map<String> map = getLocations();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String appURL = entry.getValue();
+            String appURL = entry.getValue() + "/track";
             String name = entry.getKey();
             RestTemplate restTemplates = new RestTemplate();
             tracking.add(restTemplates.getForObject(appURL, String.class));
