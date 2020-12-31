@@ -3,6 +3,7 @@
 
 # Log file
 *.log
+*.factorypath
 
 # BlueJ files
 *.ctxt
@@ -31,6 +32,9 @@ hs_err_pid*
 .idea/
 *.iml
 *.iws
+
+# Studio Code
+.vscode/
 
 # Mac
 .DS_Store

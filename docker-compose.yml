@@ -1,0 +1,72 @@
+version: '3'
+services:
+  # discovery-main:
+  #   image: distributed_imagination/discovery:0.0.1-SNAPSHOT     Single Discovery System
+  #   ports:
+  #     - 8761:8761
+
+  discovery:
+    image: distributed_imagination/discovery:0.0.1
+    environment:
+      - JAVA_OPTS=
+        -Dspring.profiles.active=peer-1
+        -DEUREKA_URI=http://discovery-peer:9002/eureka
+    ports:
+      - 8761:8761
+  
+  discovery-peer:
+    image: distributed_imagination/discovery:0.0.1
+    environment:
+      - JAVA_OPTS=
+        -Dspring.profiles.active=peer-2
+        -DEUREKA_URI=http://discovery:8761/eureka
+    ports:
+      - 9002:9002
+
+  router:
+    image: distributed_imagination/router:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+         -DEUREKA_URI1=http://discovery:8761/eureka
+         -DEUREKA_URI2=http://discovery-peer:9002/eureka
+    depends_on:
+      - discovery
+      - discovery-peer
+    ports:
+      - 8762:8762
+
+  postal-service:
+    image: distributed_imagination/postal-service:0.0.1
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_URI1=http://discovery:8761/eureka
+        -DEUREKA_URI2=http://discovery-peer:9002/eureka
+        -Dspring.profiles.active=local
+    depends_on:
+      - discovery
+      - discovery-peer
+      - database
+    ports:
+      - 8408:8408
+
+  database:
+    image: "postgres" # use latest official postgres version
+    env_file:
+      - database.env # configure postgres
+    ports: 
+      - 5432:5432
+
+
+  quotations:
+    image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_URI1=http://discovery:8761/eureka
+        -DEUREKA_URI2=http://discovery-peer:9002/eureka
+    depends_on:
+      - discovery
+      - discovery-peer
+      - postal-service
+    ports:
+      - 8800:8800
+

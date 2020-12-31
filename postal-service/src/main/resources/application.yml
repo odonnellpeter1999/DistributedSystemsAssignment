@@ -1,0 +1,65 @@
+#ref: https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config-yaml
+spring:
+  application:
+    name: postalservice
+  datasource:
+    ## POSTGRESQL DB
+    url: jdbc:postgresql://database:5432/
+    username: postgres
+    password: password
+    ## H2 MEMORY DB
+    # url: jdbc:h2:mem:testdb
+    # driver-class-name: org.h2.Driver
+    # username: sa
+    # password: password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
+  liquibase:
+    change-log: "classpath:db/migration/liquibase-changelog.xml"
+    enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI1:http://localhost:8761/eureka},${EUREKA_URI2:http://localhost:9002/eureka}
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+    metadata-map:
+      service-name: ${PostalServiceName}
+      service-id: ${PostalServiceId}
+#ref: https://springdoc.org/
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+
+  swagger-ui:
+    path: /swagger.html
+    enabled: true
+    filter: true
+
+  show-actuator: true
+  auto-tag-classes: true
+  use-fqn: true
+  writer-with-order-by-keys: true
+
+server:
+  port: 8080
+  error:
+    include-message: always
+
+DeliveryCostMultiplier: 0.69
+SimulationInterval: 5000
+DeliverySpeed: 10000
+PostalServiceName: DHL
+PostalServiceId: dhl

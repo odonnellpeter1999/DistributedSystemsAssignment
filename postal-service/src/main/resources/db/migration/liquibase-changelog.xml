@@ -1,0 +1,164 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet author="David (generated)" id="1533125034533-1">
+
+        <createTable tableName="facilities">
+            <column autoIncrement="false" name="oid" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="orders">
+            <column autoIncrement="false" name="oid" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="source_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destination_lon" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="destination_lat" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="facility_oid" type="UUID">
+                <constraints nullable="true" foreignKeyName="fk_facility_oid" referencedTableName="facilities" referencedColumnNames="oid"/>
+            </column>
+            <column name="cost" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_ordered" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_expected" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_delivered" type="DATETIME">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="parcels">
+            <column autoIncrement="false" name="oid" type="UUID">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="weight_kg" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length_cm" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="width_cm" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="height_cm" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_oid" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_order_oid" referencedTableName="orders" referencedColumnNames="oid"/>
+            </column>
+        </createTable>
+
+        <insert tableName="facilities">
+            <column name="oid">0d216b8c-951c-4168-a1b6-6773207be702</column>
+            <column name="name">Dublin Sorting Facility</column>
+            <column name="location_lon">-6.260310</column>
+            <column name="location_lat">53.349804</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">b81abf1d-fa70-40ae-8bee-6bf1104b9bb1</column>
+            <column name="name">Cork Sorting Facility</column>
+            <column name="location_lon">-8.32218</column>
+            <column name="location_lat">51.83246</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">d97130d8-f3db-4a51-b6e7-c175ddc83397</column>
+            <column name="name">Galway Sorting Facility</column>
+            <column name="location_lon">-9.04831</column>
+            <column name="location_lat">53.27395</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">75875edc-8232-4762-8df1-f755fcae209b</column>
+            <column name="name">Belfast Sorting Facility</column>
+            <column name="location_lon">-5.93453</column>
+            <column name="location_lat">54.59534</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">80aa3777-d118-4dc5-b2b3-0e090935f4aa</column>
+            <column name="name">London Sorting Facility</column>
+            <column name="location_lon">-0.127758</column>
+            <column name="location_lat">51.507351</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">24436544-6861-469c-9f81-6799a6299ccb</column>
+            <column name="name">Edinburgh Sorting Facility</column>
+            <column name="location_lon">-3.20144</column>
+            <column name="location_lat">55.95438</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">30becaa9-9d6b-4828-a058-745ff485b043</column>
+            <column name="name">Paris Sorting Facility</column>
+            <column name="location_lon">-5.93453</column>
+            <column name="location_lat">54.59534</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">bc96532b-72c0-4432-b823-9bd51e29552f</column>
+            <column name="name">Amsterdam Sorting Facility</column>
+            <column name="location_lon">4.895168</column>
+            <column name="location_lat">52.370216</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">2c3bbd8d-cacf-4ebe-9031-b21d2e8c89ae</column>
+            <column name="name">Rome Sorting Facility</column>
+            <column name="location_lon">12.496365</column>
+            <column name="location_lat">41.902782</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">06cdc371-b00d-4476-8098-9b86fe9be0fa</column>
+            <column name="name">Berlin Sorting Facility</column>
+            <column name="location_lon">13.37691</column>
+            <column name="location_lat">52.51605</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">b4622638-1f64-46b7-bd67-2fcfe0f152b3</column>
+            <column name="name">Madrid Sorting Facility</column>
+            <column name="location_lon">-3.69196</column>
+            <column name="location_lat">40.41956</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">476d0fa1-3802-412c-8577-ffe5a31ba949</column>
+            <column name="name">Prague Sorting Facility</column>
+            <column name="location_lon">14.43303</column>
+            <column name="location_lat">50.07913</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">34cd77d5-53c7-4b0e-b710-f8fd05ef057c</column>
+            <column name="name">Vienna Sorting Facility</column>
+            <column name="location_lon">16.36843</column>
+            <column name="location_lat">48.20263</column>
+        </insert>
+        <insert tableName="facilities">
+            <column name="oid">28a17118-3ede-4b6d-bb98-101750191f6c</column>
+            <column name="name">Copenhagen Sorting Facility</column>
+            <column name="location_lon">12.56756</column>
+            <column name="location_lat">55.67567</column>
+        </insert>
+
+
+    </changeSet>
+</databaseChangeLog>
