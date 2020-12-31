@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postal-service-service
+spec:
+  selector:
+    app: postal-service
+  ports:
+    - protocol: TCP
+      port: 8408
+      targetPort: 8408
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postal-service-deployment
+  labels:
+    app: postal-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postal-service
+  template:
+    metadata:
+      labels:
+        app: postal-service
+    spec:
+      containers:
+        - name: postal-service-container
+          image: registry.gitlab.com/distributed_imagination/comp30040-assignment-2/postal-service:0.0.1
+          ports:
+            - containerPort: 8408
+      imagePullSecrets:
+        - name: regcred

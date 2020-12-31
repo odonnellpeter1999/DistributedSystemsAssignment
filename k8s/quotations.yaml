@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: quotation-service-service
+spec:
+  selector:
+    app: quotation-service
+  ports:
+    - protocol: TCP
+      port: 8800
+      targetPort: 8800
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotation-service-deployment
+  labels:
+    app: quotation-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quotation-service
+  template:
+    metadata:
+      labels:
+        app: quotation-service
+    spec:
+      containers:
+        - name: quotation-service-container
+          image: registry.gitlab.com/distributed_imagination/comp30040-assignment-2/quotationservice:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8800
+      imagePullSecrets:
+        - name: regcred

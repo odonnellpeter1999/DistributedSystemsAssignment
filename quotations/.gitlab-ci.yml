@@ -1,0 +1,36 @@
+image: maven:latest
+
+
+stages:
+  - build_application
+  - publish_image
+
+
+build_application:
+  stage: build_application
+  script:
+    - cd quotations
+    - mvn package -Dmaven.test.skip=true -U
+  artifacts:
+    #IMPORTANT: Path is relative from the root of the project!
+    paths:
+      - quotations/target
+
+
+publish_image:
+  image: docker:latest
+  services:
+    - docker:dind
+  stage: publish_image
+  script:
+    - projectPath=registry.gitlab.com/distributed_imagination/comp30040-assignment-2
+    - version=$(grep 'version=' quotations/target/maven-archiver/pom.properties | grep -oE '(=).*(.=?.)' | cut -d'=' -f 2)
+    - artifact=$(grep 'artifactId=' quotations/target/maven-archiver/pom.properties | grep -oE '(=).*(.=?.)' | cut -d'=' -f 2)
+    - echo $artifact
+    - echo $version
+    - cd quotations
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build --no-cache=true -t $projectPath/$artifact:$version .
+    - docker push $projectPath/$artifact:$version
+  only:
+    - master

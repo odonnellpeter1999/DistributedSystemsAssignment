@@ -6,6 +6,9 @@ services:
   #     - 8761:8761
 
   discovery:
+    build:
+      dockerfile: Dockerfile
+      context: discovery
     image: distributed_imagination/discovery:0.0.1
     environment:
       - JAVA_OPTS=
@@ -24,6 +27,9 @@ services:
       - 9002:9002
 
   router:
+    build:
+      dockerfile: Dockerfile
+      context: router
     image: distributed_imagination/router:0.0.1-SNAPSHOT
     environment:
       - JAVA_OPTS=
@@ -36,6 +42,9 @@ services:
       - 8762:8762
 
   postal-service:
+    build:
+      dockerfile: Dockerfile
+      context: postal-service
     image: distributed_imagination/postal-service:0.0.1
     environment:
       - JAVA_OPTS=
@@ -58,6 +67,9 @@ services:
 
 
   quotations:
+    build:
+      dockerfile: Dockerfile
+      context: quotations
     image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
     environment:
       - JAVA_OPTS=
