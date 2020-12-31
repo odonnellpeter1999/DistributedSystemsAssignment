@@ -7,6 +7,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "orders")
 public class Order {
     @Id
