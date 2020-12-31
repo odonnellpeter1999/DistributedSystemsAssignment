@@ -25,7 +25,7 @@ public class DeliveryController {
         this.deliveryService = deliveryService;
     }
 
-    @RequestMapping(value = "/service-instances/delivery")
+    @RequestMapping(value = "/service-instances/delivery/list")
     public Map<String, String> returnMap() {
         return deliveryService.getLocations();
     }

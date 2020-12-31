@@ -25,7 +25,7 @@ public class TrackingController {
         this.trackingService = trackingService;
     }
 
-    @RequestMapping(value = "/service-instances/tracking")
+    @RequestMapping(value = "/service-instances/tracking/list")
     public Map<String, String> returnMap() {
         return trackingService.getLocations();
     }
