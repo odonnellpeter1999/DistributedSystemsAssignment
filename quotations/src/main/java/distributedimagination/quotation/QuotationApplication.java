@@ -5,10 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class DeliveryApplication {
-
+public class QuotationApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DeliveryApplication.class, args);
+        SpringApplication.run(QuotationApplication.class, args);
     }
 }
 
