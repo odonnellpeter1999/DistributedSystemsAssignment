@@ -11,16 +11,24 @@ The API documentation is auto-generated and can be accessed through the followin
 - `/api-docs.yaml` - OpenAPI YAML docs
 - `/swagger.html` - Swagger UI docs
 
-## Database
+## Databases
 
-H2 in-memory database can be used by uncommenting lines in application and liquibase properties files (default is PostgreSQL). If used, login details are defined in application.properties file. UI accessable through:
+Two databases can be used:
 
-- `/h2-console`
-- JDBC URL=jdbc:h2:mem:testdb
-- User Name=sa
-- Password=password
+- H2 in-memory database (DEFAULT)
+  - Default spring-boot profile: `mvn spring-boot:run`
+  - DB URL: `jdbc:h2:mem:testdb`
+  - Username: `sa`
+  - Password: `password`
+- PostgreSQL
+  - Run with local profile: `mvn spring-boot:run -Dspring-boot.run.profiles=local`
+  - DB URL: `jdbc:postgresql://database:5432/` (use localhost if not run through docker-compose)
+  - Username: `postgres`
+  - Password: `password`
+  - Usefull docker command: `docker run -p 5432:5432 --env-file database.env postgres`
 
-Note: H2-console not available when running dockerised version, access blocked.
+H2 console is also available at `/h2-console` for easy DB access through a web interface. Works for both databases using the above details.
+Note that the H2-console not available when running dockerised version, access blocked by default but can be changed in the settings file.
 
 ## How To Run
 
@@ -50,8 +58,8 @@ Simulation of orders works as follows:
 
 Default parameters as listed in application.properties:
 
-- server.port=8080
-- eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+- server.port=8408
+- eureka.client.serviceUrl.defaultZone=${EUREKA_URI1:http://localhost:8761/eureka},${EUREKA_URI2:http://localhost:9002/eureka}
 - DeliveryCostMultiplier=0.69 (used to simulate differences between postal services)
 - PostalServiceName=DHL
 - PostalServiceId=dhl
