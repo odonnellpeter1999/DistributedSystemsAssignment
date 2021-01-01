@@ -147,6 +147,30 @@
                 <configuration>
                     <source>8</source>
                     <target>8</target>
+<<<<<<< HEAD
+=======
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.9</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>distributed_imagination/${project.artifactId}</repository>
+                    <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+>>>>>>> 4c8bd0662519016b7dfd9c189912bd0a075cf337
                 </configuration>
             </plugin>
         </plugins>

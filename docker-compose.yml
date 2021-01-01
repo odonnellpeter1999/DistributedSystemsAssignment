@@ -6,6 +6,7 @@ services:
   #     - 8761:8761
 
   discovery:
+<<<<<<< HEAD
     build:
       dockerfile: Dockerfile
       context: discovery
@@ -14,6 +15,9 @@ services:
       - JAVA_OPTS=
         -Dspring.profiles.active=peer-1
         -DEUREKA_URI=http://discovery-peer:9002/eureka
+=======
+    image: distributed_imagination/discovery:0.0.1
+>>>>>>> 4c8bd0662519016b7dfd9c189912bd0a075cf337
     ports:
       - 8761:8761
   

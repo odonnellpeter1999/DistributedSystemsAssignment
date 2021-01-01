@@ -1,15 +1,15 @@
 package distributedimagination.eureka.controller;
 
-import common.PostalServiceInstances;
 import com.netflix.appinfo.InstanceInfo;
 import distributedimagination.eureka.service.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+
 
 @RestController
 public class RegistryController {
@@ -24,6 +24,7 @@ public class RegistryController {
     @RequestMapping(value = "/postal-services", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<InstanceInfo> getAllParcels() {
         return registryService.getPostalServiceInstances();
+
     }
 
     @RequestMapping(value = "/postal-services/urls", produces = MediaType.APPLICATION_JSON_VALUE)
