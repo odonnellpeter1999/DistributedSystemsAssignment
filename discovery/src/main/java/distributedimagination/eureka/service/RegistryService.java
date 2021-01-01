@@ -14,11 +14,7 @@ public class RegistryService {
     @Autowired
     private EurekaClient eurekaClient;
 
-<<<<<<< HEAD
     public List<InstanceInfo> getPostalServiceInstances() {
-=======
-    public List<InstanceInfo> getPostalServices() {
->>>>>>> 4c8bd0662519016b7dfd9c189912bd0a075cf337
         Set<InstanceInfo> postalServices = new HashSet<>();
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
