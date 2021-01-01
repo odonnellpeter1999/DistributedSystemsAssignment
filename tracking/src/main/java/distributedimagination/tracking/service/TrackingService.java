@@ -21,6 +21,18 @@ import distributedimagination.tracking.entity.ParcelQuery;
 @Service
 public class TrackingService {
 
+    private OrderQuery orderQuery = GenerateOrderTest();
+
+    public OrderQuery GenerateOrderTest() {
+        ParcelQuery testParcel = new ParcelQuery(100.0, 100.0, 100.0, 100.0);
+        ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
+        parcelQueryList.add(testParcel);
+        OrderQuery testOrder = new OrderQuery(90.0, 90.0, 90.0, 90.0,
+                parcelQueryList);
+
+        return testOrder;
+    }
+
     public Map<String, String> getLocations() {
         final String uri = "http://discovery:8761/postal-services/urls";
         RestTemplate restTemplate = new RestTemplate();
@@ -37,7 +49,7 @@ public class TrackingService {
             Map.Entry<String, String> entry = iterator.next();
             String appURL = entry.getValue() + "track";
             String name = entry.getKey();
-            RestTemplate restTemplates = new RestTemplate();
+            RestTemplate restTemplate = new RestTemplate();
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
