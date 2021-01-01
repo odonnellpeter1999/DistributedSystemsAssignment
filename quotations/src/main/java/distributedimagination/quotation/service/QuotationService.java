@@ -42,7 +42,8 @@ public class QuotationService {
 
         return map;
     }
-    //overloaded for sanity checks
+    /*loops through all postal services, and sends a post request to each using gson to convert a OrderQuery object to
+    JSON. The response is then parsed to a JSON Object and returns the name of the postal service and the cost field*/
     public ArrayList<String> getQuotationsList() {
         Map<String, String> map = getQuotes();
         ArrayList<String> quotations = new ArrayList<>();
@@ -60,35 +61,6 @@ public class QuotationService {
             String appURL = entry.getValue() + "quote";
             Gson gson = new Gson();
             String json = gson.toJson(orderQuery);
-            HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
-            JsonParser jsonParser = new JsonParser();
-            JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String quote = name + ": " + jo.get("cost");
-            quotations.add(quote);
-        }
-        return quotations;
-    }
-
-    /*loops through all postal services, and sends a post request to each using gson to convert a OrderQuery object to
-    JSON. The response is then parsed to a JSON Object and returns the name of the postal service and the cost field*/
-    public ArrayList<String> getQuotationsList(OrderQuery getQuote) {
-        Map<String, String> map = getQuotes();
-        ArrayList<String> quotations = new ArrayList<>();
-        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-
-        while (iterator.hasNext()) {
-            Map.Entry<String, String> entry = iterator.next();
-            RestTemplate restTemplate = new RestTemplate();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-            String name = entry.getKey();
-            String appURL = entry.getValue() + "quote";
-            Gson gson = new Gson();
-            String json = gson.toJson(getQuote);
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonParser jsonParser = new JsonParser();

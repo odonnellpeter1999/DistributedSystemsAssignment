@@ -34,14 +34,8 @@ public class QuotationController {
         return quotationService.getQuotationsList();
     }
 
-    @RequestMapping(value = "/service-instances/quotations")
-    public ArrayList<String> getQuotationsList(@Valid OrderQuery quote) {
-        return quotationService.getQuotationsList(quote);
-    }
-
     @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderQuery getQuotation(@Valid @RequestBody OrderQuery quote) {
-        getQuotationsList(quote);
         return quote;
     }
 
