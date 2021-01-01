@@ -1,2 +1,8 @@
 server:
   port: 8408
+spring:
+  datasource:
+    ## POSTGRESQL DB
+    url: jdbc:postgresql://database:5432/
+    username: postgres
+    password: password

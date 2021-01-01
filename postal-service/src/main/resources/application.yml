@@ -3,15 +3,10 @@ spring:
   application:
     name: postalservice
   datasource:
-    ## POSTGRESQL DB
-    url: jdbc:postgresql://database:5432/
-    username: postgres
-    password: password
     ## H2 MEMORY DB
-    # url: jdbc:h2:mem:testdb
-    # driver-class-name: org.h2.Driver
-    # username: sa
-    # password: password
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -54,7 +49,7 @@ springdoc:
   writer-with-order-by-keys: true
 
 server:
-  port: 8080
+  port: 8408
   error:
     include-message: always
 
