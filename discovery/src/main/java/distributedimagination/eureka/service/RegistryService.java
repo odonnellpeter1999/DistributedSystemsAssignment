@@ -5,7 +5,6 @@ import com.netflix.discovery.EurekaClient;
 import com.netflix.discovery.shared.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import common.PostalServiceInstances;
 
 import java.util.*;
 
@@ -15,7 +14,7 @@ public class RegistryService {
     @Autowired
     private EurekaClient eurekaClient;
 
-    public List<InstanceInfo> getPostalServiceInstances() {
+    public List<InstanceInfo> getPostalServices() {
         Set<InstanceInfo> postalServices = new HashSet<>();
         List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
         for (Application application : applications) {
@@ -23,6 +22,7 @@ public class RegistryService {
                 if (instance.getAppName().contains("POSTALSERVICE"))
                     postalServices.add(instance);
             }
+
         }
         return new ArrayList<InstanceInfo>(postalServices);
     }
