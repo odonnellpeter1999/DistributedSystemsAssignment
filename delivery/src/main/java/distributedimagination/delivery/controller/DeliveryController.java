@@ -21,7 +21,7 @@ public class DeliveryController {
     }
 
     @RequestMapping(value = "/service-instances/delivery")
-    public ArrayList<String> getDeliveryList() {
+    public Map<String, String> getDeliveryList() {
         return deliveryService.getDeliveryList();
     }
 }

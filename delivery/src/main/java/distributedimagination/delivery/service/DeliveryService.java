@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class DeliveryService {
@@ -33,15 +34,15 @@ public class DeliveryService {
     }
 
     public Map<String, String> getDeliveryDate() {
-        final String uri = "http://discovery:8761/postal-services/urls";
+        final String uri = "http://localhost:8761/postal-services/urls";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
         return map;
     }
 
-    public ArrayList<String> getDeliveryList() {
-        ArrayList<String> delivery = new ArrayList<String>();
+    public Map<String, String> getDeliveryList() {
+        Map<String, String> delivery = new HashMap<>();
         Map<String, String> map = getDeliveryDate();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -53,15 +54,17 @@ public class DeliveryService {
             headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
             String name = entry.getKey();
-            String appURL = entry.getValue() + "deliveryDate";
+            String appURL = entry.getValue() + "orders";
             Gson gson = new Gson();
             String json = gson.toJson(orderQuery);
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String deliveryDate = name + " was delivered on " + jo.get("dateDelivered");
-            delivery.add(deliveryDate);
+            String orderDate = name + jo.get("dateOrdered");
+            String trackingID = jo.get("trackingId").toString();
+            delivery.put("orderDate", orderDate);
+            delivery.put("trackingID", trackingID);
         }
         return delivery;
     }
