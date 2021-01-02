@@ -1,9 +1,6 @@
 package distributedimagination.quotation.service;
 
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import distributedimagination.quotation.entity.OrderQuery;
 import distributedimagination.quotation.entity.ParcelQuery;
 import org.springframework.http.HttpEntity;
@@ -21,17 +18,28 @@ import java.util.Map;
 @Service
 public class QuotationService {
 
-    private OrderQuery orderQuery = GenerateOrderTest();
 
-    //temporary hardcoded order testing
-    public OrderQuery GenerateOrderTest() {
-        ParcelQuery testParcel = new ParcelQuery(100.0, 100.0, 100.0, 100.0);
+    public ArrayList<String> GenerateQuote(JsonObject jsonObject) {
+
+        JsonArray parcelArray = jsonObject.getAsJsonArray("parcels");
         ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
-        parcelQueryList.add(testParcel);
-        OrderQuery testOrder = new OrderQuery(90.0, 90.0, 90.0, 90.0,
-                parcelQueryList);
 
-        return testOrder;
+        //iterates through each parcel and parses each element
+        for (JsonElement jsonElement : parcelArray) {
+            JsonObject parcel = jsonElement.getAsJsonObject();
+            ParcelQuery parcelQuery = new ParcelQuery(parcel.get("weightKg").getAsDouble(),
+                    parcel.get("lengthCm").getAsDouble(), parcel.get("widthCm").getAsDouble(),
+                    parcel.get("heightCm").getAsDouble());
+            parcelQueryList.add(parcelQuery);
+        }
+
+        OrderQuery orderQuery = new OrderQuery(jsonObject.get("sourceLon").getAsDouble(),
+                jsonObject.get("sourceLat").getAsDouble(), jsonObject.get("destinationLon").getAsDouble(),
+                jsonObject.get("destinationLat").getAsDouble(), parcelQueryList);
+
+        ArrayList<String> quotes = getQuotationsList(orderQuery);
+
+        return quotes;
     }
 
     public Map<String, String> getQuotes() {
@@ -42,9 +50,10 @@ public class QuotationService {
 
         return map;
     }
+
     /*loops through all postal services, and sends a post request to each using gson to convert a OrderQuery object to
     JSON. The response is then parsed to a JSON Object and returns the name of the postal service and the cost field*/
-    public ArrayList<String> getQuotationsList() {
+    public ArrayList<String> getQuotationsList(OrderQuery orderQuery) {
         Map<String, String> map = getQuotes();
         ArrayList<String> quotations = new ArrayList<>();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
