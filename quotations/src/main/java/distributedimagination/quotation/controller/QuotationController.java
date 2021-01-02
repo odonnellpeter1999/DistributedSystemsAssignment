@@ -30,7 +30,7 @@ public class QuotationController {
 
     @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getQuotation(@RequestBody String order) {
-        JsonObject jsonOrder = new JsonParser().parse(order).getAsJsonObject();
+        JsonObject jsonOrder = JsonParser.parseString(order).getAsJsonObject();
         return quotationService.GenerateQuote(jsonOrder);
     }
 

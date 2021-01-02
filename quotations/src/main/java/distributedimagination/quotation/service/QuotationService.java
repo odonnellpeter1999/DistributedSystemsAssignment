@@ -76,8 +76,7 @@ public class QuotationService {
             String json = gson.toJson(orderQuery);
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
-            JsonParser jsonParser = new JsonParser();
-            JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
+            JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
             String quote = "providerName:" + name + ", price:" + jo.get("cost");
             quotations.add(quote);
         }
