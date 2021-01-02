@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class QuotationService {
@@ -47,7 +49,7 @@ public class QuotationService {
                 jsonObject.get("sourceLat").getAsDouble(), jsonObject.get("destinationLon").getAsDouble(),
                 jsonObject.get("destinationLat").getAsDouble(), parcelQueryList);
 
-        ArrayList<String> quotes = getQuotationsList(orderQuery);
+        ArrayList<Map<String, String>> quotes = getQuotationsList(orderQuery);
 
         Gson gson = new Gson();
         String jsArray = gson.toJson(quotes);
@@ -57,9 +59,9 @@ public class QuotationService {
 
     /*loops through all postal services, and sends a post request to each using gson to convert a OrderQuery object to
     JSON. The response is then parsed to a JSON Object and returns the name of the postal service and the cost field*/
-    public ArrayList<String> getQuotationsList(OrderQuery orderQuery) {
+    public ArrayList<Map<String, String>> getQuotationsList(OrderQuery orderQuery) {
         Map<String, String> map = getQuotes();
-        ArrayList<String> quotations = new ArrayList<>();
+        ArrayList<Map<String, String>> quotations = new ArrayList<>();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
 
         while (iterator.hasNext()) {
@@ -77,8 +79,11 @@ public class QuotationService {
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
-            String quote = "providerName:" + name + ", price:" + jo.get("cost");
-            quotations.add(quote);
+            // String quote = "providerName:" + name + ", price:" + jo.get("cost");
+            HashMap<String, String> obj = new HashMap<>();
+            obj.put("providerName", name);
+            obj.put("price", jo.get("cost").toString());
+            quotations.add(obj);
         }
         return quotations;
     }

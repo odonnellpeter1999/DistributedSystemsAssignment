@@ -19,11 +19,9 @@ class PaymentModal extends React.Component {
   }
 
   chooseQuotation(q) {
-    console.log("Choosing quotation")
     this.setState({ 
       chosenQuotation: q
     })
-    console.log(this.state.chosenQuotation)
   }
 
   getQuotations() {
@@ -49,56 +47,19 @@ class PaymentModal extends React.Component {
       ]
     }
 
-    console.log(postObject)
-
-    // fetch("http://localhost:8800/request", {
-    //   method: "POST",
-    //   headers: {
-    //     'Accept': '*/*',
-    //     'Content-Type': 'application/json',
-    //     'Origin': 'localhost:3000',
-    //     'Access-Control-Allow-Origin'
-    //   },
-
-    //   //make sure to serialize your JSON body
-    //   body: JSON.stringify({
-    //     "sourceLon": 48,
-    //     "sourceLat": 2,
-    //     "destinationLon": long,
-    //     "destinationLat": lat,
-    //     "parcels": [
-    //       {
-    //         "weightKg": packageInfo.weight,
-    //         "lengthCm": packageInfo.lengthCm,
-    //         "widthCm": packageInfo.width,
-    //         "heightCm": packageInfo.height,
-    //       }
-    //     ]
-    //   })
-    // })
-    // .then( (response) => { 
-    //   console.log(response)
-    // });
-
     Axios.post('http://localhost:8800/request', postObject).then(response => {
-      console.log(response.data)
       let quotationsList = []
-      response.data.forEach(jsonstring => {
-        let jsonObj = JSON.parse(jsonstring);
-        console.log(jsonObj)
+      response.data.forEach(quotation => {
+        console.log(quotation)
         quotationsList.push({
-          postalService: jsonObj.providerName,
-          price: jsonObj.price
+          postalService: quotation.providerName,
+          price: quotation.price
         })
       })
       this.setState({
         quotations: quotationsList
       })
     })
-
-    // console.log('getQuotations')
-    // this.setState({ quotations: [{postalService: "DHL", price: "3.00"}] })
-    // console.log('quotations:',  this.state.quotations)
   }
 
   toggleShow() {
