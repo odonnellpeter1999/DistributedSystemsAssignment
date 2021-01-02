@@ -1,4 +1,5 @@
-image: maven:latest
+#Pipeline architecture ref: https://docs.gitlab.com/ee/ci/pipelines/pipeline_architectures.html
+
 
 variables:
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
@@ -8,17 +9,18 @@ variables:
   # when running from the command line.
   # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  DOCKER_HOST: "tcp://docker:2375"
+
 
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - .m2/repository
 
-stages:
-  - test
 
-test:
-  stage: test
-  script:
-    - mvn $MAVEN_CLI_OPTS compile test -B
+include:
+  - local: '/postal-service/.gitlab-ci.yml'
+  - local: '/quotations/.gitlab-ci.yml'
+

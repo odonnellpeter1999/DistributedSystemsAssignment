@@ -23,6 +23,7 @@ public class QuotationService {
 
     private OrderQuery orderQuery = GenerateOrderTest();
 
+    //temporary hardcoded order testing
     public OrderQuery GenerateOrderTest() {
         ParcelQuery testParcel = new ParcelQuery(100.0, 100.0, 100.0, 100.0);
         ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
@@ -41,7 +42,8 @@ public class QuotationService {
 
         return map;
     }
-
+    /*loops through all postal services, and sends a post request to each using gson to convert a OrderQuery object to
+    JSON. The response is then parsed to a JSON Object and returns the name of the postal service and the cost field*/
     public ArrayList<String> getQuotationsList() {
         Map<String, String> map = getQuotes();
         ArrayList<String> quotations = new ArrayList<>();
@@ -68,4 +70,5 @@ public class QuotationService {
         }
         return quotations;
     }
+
 }
