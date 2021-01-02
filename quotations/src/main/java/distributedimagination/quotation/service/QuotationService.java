@@ -19,8 +19,17 @@ import java.util.Map;
 public class QuotationService {
 
 
-    public String GenerateQuote(JsonObject jsonObject) {
+    public Map<String, String> getQuotes() {
+        final String uri = "http://discovery:8761/postal-services/urls";
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, String> map;
+        map = restTemplate.getForObject(uri, Map.class);
 
+        return map;
+    }
+
+
+    public String GenerateQuote(JsonObject jsonObject) {
 
         JsonArray parcelArray = jsonObject.getAsJsonArray("parcels");
         ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
@@ -44,15 +53,6 @@ public class QuotationService {
         String jsArray = gson.toJson(quotes);
 
         return jsArray;
-    }
-
-    public Map<String, String> getQuotes() {
-        final String uri = "http://discovery:8761/postal-services/urls";
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> map;
-        map = restTemplate.getForObject(uri, Map.class);
-
-        return map;
     }
 
     /*loops through all postal services, and sends a post request to each using gson to convert a OrderQuery object to
