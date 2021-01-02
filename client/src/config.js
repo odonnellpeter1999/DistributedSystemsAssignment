@@ -6,7 +6,7 @@ let config = {
             "price": 4,
             "packageInfo": {
                 "weight": 2.2,
-                "length": 20,
+                "lengthCm": 20,
                 "width": 20,
                 "height": 20
             }
@@ -16,7 +16,7 @@ let config = {
             "price": 18,
             "packageInfo": {
                 "weight": 10.4,
-                "length": 100,
+                "lengthCm": 100,
                 "width": 100,
                 "height": 100
             }
@@ -26,7 +26,7 @@ let config = {
             "price": 75,
             "packageInfo": {
                 "weight": 41,
-                "length": 400,
+                "lengthCm": 400,
                 "width": 400,
                 "height": 400
             }
