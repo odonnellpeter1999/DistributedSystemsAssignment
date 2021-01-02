@@ -74,7 +74,7 @@ public class QuotationService {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String quote = name + ": " + jo.get("cost");
+            String quote = "providerName:" + name + ", price:" + jo.get("cost");
             quotations.add(quote);
         }
         return quotations;
