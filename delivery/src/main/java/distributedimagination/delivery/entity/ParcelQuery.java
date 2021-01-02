@@ -1,4 +1,4 @@
-package distributedimagination.quotation.entity;
+package distributedimagination.delivery.entity;
 
 public class ParcelQuery {
     private Double weightKg;

@@ -1,4 +1,4 @@
-package distributedimagination.quotation.entity;
+package distributedimagination.delivery.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 

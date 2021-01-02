@@ -8,7 +8,7 @@ import java.util.*;
 @RestController
 public class DeliveryController {
 
-    private final DeliveryService DeliveryService;
+    private final DeliveryService deliveryService;
 
     @Autowired
     public DeliveryController(DeliveryService deliveryService) {

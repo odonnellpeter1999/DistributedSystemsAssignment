@@ -3,8 +3,8 @@ package distributedimagination.delivery.service;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import distributedimagination.quotation.entity.OrderQuery;
-import distributedimagination.quotation.entity.ParcelQuery;
+import distributedimagination.delivery.entity.OrderQuery;
+import distributedimagination.delivery.entity.ParcelQuery;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class DeliveryService {
 
     public ArrayList<String> getDeliveryList() {
         ArrayList<String> delivery = new ArrayList<String>();
-        Map<String, String> map = getLocations();
+        Map<String, String> map = getDeliveryDate();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
