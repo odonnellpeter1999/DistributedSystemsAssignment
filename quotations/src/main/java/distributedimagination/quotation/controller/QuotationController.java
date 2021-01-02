@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class QuotationController {
     }
 
     @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "http://localhost:3000")
     public String getQuotation(@RequestBody String order) {
         JsonObject jsonOrder = JsonParser.parseString(order).getAsJsonObject();
         return quotationService.GenerateQuote(jsonOrder);
