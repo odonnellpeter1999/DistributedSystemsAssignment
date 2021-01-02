@@ -19,7 +19,8 @@ import java.util.Map;
 public class QuotationService {
 
 
-    public ArrayList<String> GenerateQuote(JsonObject jsonObject) {
+    public String GenerateQuote(JsonObject jsonObject) {
+
 
         JsonArray parcelArray = jsonObject.getAsJsonArray("parcels");
         ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
@@ -39,7 +40,10 @@ public class QuotationService {
 
         ArrayList<String> quotes = getQuotationsList(orderQuery);
 
-        return quotes;
+        Gson gson = new Gson();
+        String jsArray = gson.toJson(quotes);
+
+        return jsArray;
     }
 
     public Map<String, String> getQuotes() {

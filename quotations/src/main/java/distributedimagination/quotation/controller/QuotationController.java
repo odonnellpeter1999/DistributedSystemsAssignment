@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 
@@ -30,7 +29,7 @@ public class QuotationController {
     }
 
     @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ArrayList<String> getQuotation(@RequestBody String order) {
+    public String getQuotation(@RequestBody String order) {
         JsonObject jsonOrder = new JsonParser().parse(order).getAsJsonObject();
         return quotationService.GenerateQuote(jsonOrder);
     }
