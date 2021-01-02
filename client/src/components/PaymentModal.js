@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import React from 'react';
+import Axios from 'axios'
 
 class PaymentModal extends React.Component {
   constructor(){
@@ -30,7 +31,26 @@ class PaymentModal extends React.Component {
     let long = document.getElementById("long").value
     console.log('Longitude: ' + long)
     console.log('Latitude: ' + lat)
-    // Perform request.
+    
+    let packageInfo = this.props.product.packageInfo
+
+    let postObject = {
+      "sourceLon": 48,
+      "sourceLat": 2,
+      "destinationLon": long,
+      "destinationLat": lat,
+      "packages": [
+        {
+          "weightKg": packageInfo.weight,
+          "lengthCm": packageInfo.lengthCm,
+          "widthCm": packageInfo.width,
+          "heightCm": packageInfo.height,
+        }
+      ]
+    }
+
+    Axios.post('localhost:8800/request', postObject)
+
     console.log('getQuotations')
     this.setState({ quotations: [{postalService: "DHL", price: "3.00"}] })
     console.log('quotations:',  this.state.quotations)
