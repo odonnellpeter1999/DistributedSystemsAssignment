@@ -36,6 +36,7 @@ public class QuotationController {
 
     @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderQuery getQuotation(@Valid @RequestBody OrderQuery quote) {
+        System.out.println(quote);
         return quote;
     }
 
