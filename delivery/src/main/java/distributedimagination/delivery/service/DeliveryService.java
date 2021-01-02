@@ -1,7 +1,17 @@
 package distributedimagination.delivery.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import distributedimagination.quotation.entity.OrderQuery;
+import distributedimagination.quotation.entity.ParcelQuery;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,10 +45,22 @@ public class DeliveryService {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String appURL = entry.getValue() + "deliveryDate";
-            String name = entry.getKey();
             RestTemplate restTemplate = new RestTemplate();
-            delivery.add(restTemplate.getForObject(appURL, String.class));
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+            String name = entry.getKey();
+            String appURL = entry.getValue() + "deliveryDate";
+            Gson gson = new Gson();
+            String json = gson.toJson(orderQuery);
+            HttpEntity<String> request = new HttpEntity<String>(json, headers);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
+            String deliveryDate = name + " was delivered on " + jo.get("dateDelivered");
+            delivery.add(deliveryDate);
         }
         return delivery;
     }
