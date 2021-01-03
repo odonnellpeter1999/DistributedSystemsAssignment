@@ -35,7 +35,7 @@ public class TrackingService {
     }
 
     public Map<String, String> getLocations() {
-        final String uri = "http://discovery:8761/postal-services/urls";
+        final String uri = "http://discovery:8761/postal-services/id";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
@@ -62,8 +62,22 @@ public class TrackingService {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String track = name + jo.get("facility").toString();
+            String track = jo.get("facility").toString();
+            String oid = jo.get("oid").toString();
+            String dateDelivered = jo.get("dateDelivered").toString();
+            String status = "ORDER CONFIRMED";
+                if (oid == null) {
+                    status = "QUOTATION"; // Order has not been placed yet
+                }
+                if (dateDelivered != null) {
+                    status =  "DELIVERED"; // Order has been delivered 
+                }
+                if (track != null) {
+                    status =  "AT SORTING FACILITY"; // Order is still at source but placed
+                }
+
             tracking.put("track", track);
+            tracking.put("status", status);
         }
         return tracking;
     }

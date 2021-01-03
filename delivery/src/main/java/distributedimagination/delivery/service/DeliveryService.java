@@ -40,24 +40,25 @@ public class DeliveryService {
                 jsonObject.get("sourceLat").getAsDouble(), jsonObject.get("destinationLon").getAsDouble(),
                 jsonObject.get("destinationLat").getAsDouble(), parcelQueryList);
 
-        Map<String, String> deliveries = getDeliveryList(serviceID, orderQuery);
+        ArrayList<Map<String, String>> deliveries = getDeliveryList(serviceID, orderQuery);
 
         Gson gson = new Gson();
-        String jsObj = gson.toJson(deliveries);
+        String jsArray = gson.toJson(deliveries);
 
-        return jsObj;
+        return jsArray;
 
     }
 
-    public Map<String, String> getDeliveryList(String serviceID, OrderQuery orderQuery) {
+    public ArrayList<Map<String, String>> getDeliveryList(String serviceID, OrderQuery orderQuery) {
         Map<String, String> map = getDelivery();
-        HashMap<String, String> deliveries = new HashMap<>();
+        ArrayList<Map<String, String>> deliveries = new ArrayList<>();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
             RestTemplate restTemplate = new RestTemplate();
-            if (entry.getKey().equals(serviceID)) {
+
+            if (entry.getKey() == serviceID) {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -73,14 +74,12 @@ public class DeliveryService {
                 String orderDate = name + jo.get("dateOrdered");
                 String trackingID = jo.get("trackingId").toString();
 
-                deliveries.put("orderDate", orderDate);
-                deliveries.put("trackingID", trackingID);
-
+                HashMap<String, String> obj = new HashMap<>();
+                obj.put("orderDate", orderDate);
+                obj.put("trackingID", trackingID);
+                deliveries.add(obj);
             }
         }
         return deliveries;
     }
 }
-
-
-
