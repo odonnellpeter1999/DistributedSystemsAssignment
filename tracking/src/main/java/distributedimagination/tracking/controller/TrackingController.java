@@ -23,8 +23,8 @@ public class TrackingController {
     }
 
     @RequestMapping(value = "/request-tracking")
-    public Map<String, String> getTrackingList(@RequestBody String trackingInfo) {
-        JsonObject jsonOrder = JsonParser.parseString(trackingInfo).getAsJsonObject();
-        return trackingService.getTrackingList(jsonOrder);
+    public Map<String, String> TrackingList(@RequestBody String trackingInfo) {
+        JsonObject jsonTracking = JsonParser.parseString(trackingInfo).getAsJsonObject();
+        return trackingService.getTracking(jsonTracking);
     }
 }

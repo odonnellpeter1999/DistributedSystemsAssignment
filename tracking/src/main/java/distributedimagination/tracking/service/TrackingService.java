@@ -1,38 +1,20 @@
 package distributedimagination.tracking.service;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
-import distributedimagination.tracking.entity.OrderQuery;
-import distributedimagination.tracking.entity.ParcelQuery;
-
 @Service
 public class TrackingService {
 
-    private OrderQuery orderQuery = GenerateOrderTest();
-
-    public OrderQuery GenerateOrderTest() {
-        ParcelQuery testParcel = new ParcelQuery(100.0, 100.0, 100.0, 100.0);
-        ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
-        parcelQueryList.add(testParcel);
-        OrderQuery testOrder = new OrderQuery(90.0, 90.0, 90.0, 90.0,
-                parcelQueryList);
-
-        return testOrder;
-    }
 
     public Map<String, String> getPostalIDs() {
         final String uri = "http://discovery:8761/postal-services/id";
@@ -42,7 +24,7 @@ public class TrackingService {
         return map;
     }
 
-    public Map<String, String> getTrackingList(JsonObject trackingInfo) {
+    public Map<String, String> getTracking(JsonObject trackingInfo) {
         String trackingID = trackingInfo.get("trackingId").toString().replaceAll("^\"|\"$", "");
         String serviceID = trackingID.split("-")[0];
         Map<String, String> serviceIDs = getPostalIDs();
