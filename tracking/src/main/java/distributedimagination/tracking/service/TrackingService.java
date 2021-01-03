@@ -47,7 +47,7 @@ public class TrackingService {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String appURL = entry.getValue() + "track/{orderId}";
+            String appURL = entry.getValue() + "track";
             String name = entry.getKey();
             RestTemplate restTemplate = new RestTemplate();
 
@@ -61,7 +61,7 @@ public class TrackingService {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String track = name + jo.get("trackingId");
+            String track = name + jo.get("orderId");
 
             tracking.add(track);
         }
