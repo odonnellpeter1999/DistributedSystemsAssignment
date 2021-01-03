@@ -1,5 +1,3 @@
-package distributedimagination.delivery.service;
-
 import com.google.gson.*;
 import distributedimagination.delivery.entity.OrderQuery;
 import distributedimagination.delivery.entity.ParcelQuery;
@@ -11,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
+
+ppackage distributedimagination.delivery.service;
 
 @Service
 public class DeliveryService {
@@ -40,25 +40,24 @@ public class DeliveryService {
                 jsonObject.get("sourceLat").getAsDouble(), jsonObject.get("destinationLon").getAsDouble(),
                 jsonObject.get("destinationLat").getAsDouble(), parcelQueryList);
 
-        ArrayList<Map<String, String>> deliveries = getDeliveryList(serviceID, orderQuery);
+        Map<String, String> deliveries = getDeliveryList(serviceID, orderQuery);
 
         Gson gson = new Gson();
-        String jsArray = gson.toJson(deliveries);
+        String jsObj = gson.toJson(deliveries);
 
-        return jsArray;
+        return jsObj;
 
     }
 
-    public ArrayList<Map<String, String>> getDeliveryList(String serviceID, OrderQuery orderQuery) {
+    public Map<String, String> getDeliveryList(String serviceID, OrderQuery orderQuery) {
         Map<String, String> map = getDelivery();
-        ArrayList<Map<String, String>> deliveries = new ArrayList<>();
+        HashMap<String, String> deliveries = new HashMap<>();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
 
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
             RestTemplate restTemplate = new RestTemplate();
-
-            if (entry.getKey() == serviceID) {
+            if (entry.getKey().equals(serviceID)) {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -74,12 +73,14 @@ public class DeliveryService {
                 String orderDate = name + jo.get("dateOrdered");
                 String trackingID = jo.get("trackingId").toString();
 
-                HashMap<String, String> obj = new HashMap<>();
-                obj.put("orderDate", orderDate);
-                obj.put("trackingID", trackingID);
-                deliveries.add(obj);
+                deliveries.put("orderDate", orderDate);
+                deliveries.put("trackingID", trackingID);
+
             }
         }
         return deliveries;
     }
 }
+
+
+
