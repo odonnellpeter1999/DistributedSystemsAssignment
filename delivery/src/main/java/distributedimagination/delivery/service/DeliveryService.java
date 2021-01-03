@@ -33,7 +33,7 @@ public class DeliveryService {
         return testOrder;
     }
 
-    public Map<String, String> getDeliveryDate() {
+    public Map<String, String> getDelivery() {
         final String uri = "http://localhost:8761/postal-services/urls";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
@@ -43,7 +43,7 @@ public class DeliveryService {
 
     public Map<String, String> getDeliveryList() {
         Map<String, String> delivery = new HashMap<>();
-        Map<String, String> map = getDeliveryDate();
+        Map<String, String> map = getDelivery();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();

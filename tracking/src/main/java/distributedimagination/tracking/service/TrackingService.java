@@ -34,7 +34,7 @@ public class TrackingService {
     }
 
     public Map<String, String> getLocations() {
-        final String uri = "http://discovery:8761/postal-services/urls";
+        final String uri = "http://localhost:8761/postal-services/urls";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
@@ -47,7 +47,7 @@ public class TrackingService {
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
-            String appURL = entry.getValue() + "track";
+            String appURL = entry.getValue() + "track/{orderId}";
             String name = entry.getKey();
             RestTemplate restTemplate = new RestTemplate();
 
