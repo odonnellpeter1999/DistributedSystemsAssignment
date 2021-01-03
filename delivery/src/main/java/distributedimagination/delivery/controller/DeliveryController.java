@@ -15,12 +15,12 @@ public class DeliveryController {
         this.deliveryService = deliveryService;
     }
 
-    @RequestMapping(value = "/service-instances/delivery/list")
+    @RequestMapping(value = "/delivery-providers")
     public Map<String, String> returnMap() {
         return deliveryService.getDelivery();
     }
 
-    @RequestMapping(value = "/service-instances/delivery")
+    @RequestMapping(value = "request-delivery")
     public Map<String, String> getDeliveryList() {
         return deliveryService.getDeliveryList();
     }
