@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Collections;
 import java.util.Map;
+import java.util.HashMap;
 
 import distributedimagination.tracking.entity.OrderQuery;
 import distributedimagination.tracking.entity.ParcelQuery;
@@ -41,8 +42,8 @@ public class TrackingService {
         return map;
     }
 
-    public ArrayList<String> getTrackingList() {
-        ArrayList<String> tracking = new ArrayList<String>();
+    public Map<String, String> getTrackingList() {
+        Map<String, String> tracking = new HashMap<>();
         Map<String, String> map = getLocations();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -61,9 +62,8 @@ public class TrackingService {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String track = name + jo.get("orderId");
-
-            tracking.add(track);
+            String track = name + jo.get("facility").toString();
+            tracking.put("track", track);
         }
         return tracking;
     }

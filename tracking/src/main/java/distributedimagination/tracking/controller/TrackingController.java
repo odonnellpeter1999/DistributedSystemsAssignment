@@ -21,7 +21,7 @@ public class TrackingController {
     }
 
     @RequestMapping(value = "/request-tracking")
-    public ArrayList<String> getTrackingList() {
+    public Map<String, String> getTrackingList() {
         return trackingService.getTrackingList();
     }
 }
