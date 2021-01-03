@@ -23,7 +23,7 @@ public class DeliveryService {
 
     private OrderQuery orderQuery = GenerateOrderTest();
 
-    
+
     public OrderQuery GenerateOrderTest() {
         ParcelQuery testParcel = new ParcelQuery(100.0, 100.0, 100.0, 100.0);
         ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();

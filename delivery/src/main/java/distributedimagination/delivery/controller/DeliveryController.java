@@ -20,7 +20,7 @@ public class DeliveryController {
         return deliveryService.getDelivery();
     }
 
-    @RequestMapping(value = "request-delivery")
+    @RequestMapping(value = "/request-delivery")
     public Map<String, String> getDeliveryList() {
         return deliveryService.getDeliveryList();
     }
