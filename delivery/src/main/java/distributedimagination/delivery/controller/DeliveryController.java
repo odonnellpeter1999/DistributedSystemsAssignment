@@ -1,7 +1,10 @@
 package distributedimagination.delivery.controller;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import distributedimagination.delivery.service.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
@@ -20,8 +23,10 @@ public class DeliveryController {
         return deliveryService.getDelivery();
     }
 
-    @RequestMapping(value = "request-delivery")
-    public Map<String, String> getDeliveryList() {
-        return deliveryService.getDeliveryList();
+    @PostMapping(value = "/request-delivery", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "http://localhost:3000")
+    public String getDeliveryList(@RequestBody String order) {
+        JsonObject jsonOrder = JsonParser.parseString(order).getAsJsonObject();
+        return deliveryService.GenerateDelivery(jsonOrder);
     }
 }
