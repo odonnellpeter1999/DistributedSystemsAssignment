@@ -70,7 +70,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: quotations
-    image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
+    image: distributed_imagination/quotations:0.0.1-SNAPSHOT
     environment:
       - JAVA_OPTS=
         -DEUREKA_URI1=http://discovery:8761/eureka

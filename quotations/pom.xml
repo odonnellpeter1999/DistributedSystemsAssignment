@@ -10,7 +10,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>distributedimagination</groupId>
-    <artifactId>quotationservice</artifactId>
+    <artifactId>quotations</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>quotation</name>
     <description>quotation service for assignment 2</description>

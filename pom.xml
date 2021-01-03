@@ -12,6 +12,7 @@
         <module>postal-service</module>
         <module>delivery</module>
         <module>tracking</module>
+        <module>quotations</module>
     </modules>
 
     <properties>
