@@ -16,7 +16,7 @@ services:
         -DEUREKA_URI=http://discovery-peer:9002/eureka
     ports:
       - 8761:8761
-  
+
   discovery-peer:
     image: distributed_imagination/discovery:0.0.1
     environment:
@@ -33,8 +33,8 @@ services:
     image: distributed_imagination/router:0.0.1-SNAPSHOT
     environment:
       - JAVA_OPTS=
-         -DEUREKA_URI1=http://discovery:8761/eureka
-         -DEUREKA_URI2=http://discovery-peer:9002/eureka
+        -DEUREKA_URI1=http://discovery:8761/eureka
+        -DEUREKA_URI2=http://discovery-peer:9002/eureka
     depends_on:
       - discovery
       - discovery-peer
@@ -62,7 +62,7 @@ services:
     image: "postgres" # use latest official postgres version
     env_file:
       - database.env # configure postgres
-    ports: 
+    ports:
       - 5432:5432
 
 
@@ -81,4 +81,38 @@ services:
       - postal-service
     ports:
       - 8800:8800
+
+  delivery:
+    build:
+      dockerfile: Dockerfile
+      context: delivery
+    image: distributed_imagination/delivery:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_URI1=http://discovery:8761/eureka
+        -DEUREKA_URI2=http://discovery-peer:9002/eureka
+    depends_on:
+      - discovery
+      - discovery-peer
+      - postal-service
+    ports:
+      - 8802:8802
+
+  tracking:
+    build:
+      dockerfile: Dockerfile
+      context: tracking
+    image: distributed_imagination/tracking:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_URI1=http://discovery:8761/eureka
+        -DEUREKA_URI2=http://discovery-peer:9002/eureka
+    depends_on:
+      - discovery
+      - discovery-peer
+      - postal-service
+    ports:
+      - 8801:8801
+
+
 
