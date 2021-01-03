@@ -35,7 +35,7 @@ public class TrackingService {
     }
 
     public Map<String, String> getPostalIDs() {
-        final String uri = "http://localhost:8761/postal-services/id";
+        final String uri = "http://discovery:8761/postal-services/id";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
@@ -53,6 +53,11 @@ public class TrackingService {
 
         Map<String, String> tracking = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         System.out.println(response.getBody());
         JsonObject jo = (JsonObject) JsonParser.parseString(response.getBody());
