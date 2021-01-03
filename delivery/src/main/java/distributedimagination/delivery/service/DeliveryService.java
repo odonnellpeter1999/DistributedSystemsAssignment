@@ -34,7 +34,7 @@ public class DeliveryService {
     }
 
     public Map<String, String> getDelivery() {
-        final String uri = "http://localhost:8761/postal-services/urls";
+        final String uri = "http://discovery:8761/postal-services/urls";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
