@@ -16,7 +16,7 @@ import java.util.*;
 public class DeliveryService {
 
     public Map<String, String> getDelivery() {
-        final String uri = "http://discovery:8761/postal-services/urls";
+        final String uri = "http://discovery:8761/postal-services/id";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
@@ -57,8 +57,7 @@ public class DeliveryService {
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
             RestTemplate restTemplate = new RestTemplate();
-
-            if (entry.getKey() == serviceID) {
+            if (entry.getKey().equals(serviceID)) {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
