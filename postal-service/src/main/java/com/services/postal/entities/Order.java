@@ -19,6 +19,8 @@ import java.util.UUID;
  * A shipping order will contain multiple parcels.
  * From ONE source location to ONE destination.
  */
+@Getter
+@Setter
 @Builder
 @Entity
 @Data
@@ -155,4 +157,68 @@ public class Order {
 
         return Math.sqrt(distance);
     }
+
+    public Date getDateExpected() {
+        return dateExpected;
+    }
+
+    public Date getDateDelivered() {
+        return dateDelivered;
+    }
+
+    public Double getCost() {
+        return cost;
+    }
+
+    public Date getDateOrdered() {
+        return dateOrdered;
+    }
+
+    public UUID getOid() {
+        return oid;
+    }
+
+    public Double getDestinationLat() {
+        return destinationLat;
+    }
+
+    public String getTrackingId() {
+        return trackingId;
+    }
+
+    public Double getDestinationLon() {
+        return destinationLon;
+    }
+
+    public Facility getFacility() {
+        return facility;
+    }
+
+    public List<Parcel> getParcels() {
+        return parcels;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+    
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public Double getSourceLat() {
+        return sourceLat;
+    }
+
+    public Double getSourceLon() {
+        return sourceLon;
+    }
+
+	public void setDateDelivered(Date date) {
+        this.dateDelivered = date;
+	}
+
+	public void setFacility(Facility newFacility) {
+        this.facility = newFacility;
+	}
 }

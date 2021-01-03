@@ -34,7 +34,7 @@ class PaymentModal extends React.Component {
     
     let packageInfo = this.props.product.packageInfo
 
-    Axios.post('http://localhost:8800/request', {
+    Axios.post('http://localhost:8800/request-quote', {
       "sourceLon": 48,
       "sourceLat": 2,
       "destinationLon": long,
@@ -91,7 +91,7 @@ class PaymentModal extends React.Component {
     
     let packageInfo = this.props.product.packageInfo
 
-    Axios.post('http://localhost:8800/request', {
+    Axios.post('http://localhost:8802/request-delivery', {
       "serviceID": this.state.chosenQuotation.postalServiceID,
       "sourceLon": 48,
       "sourceLat": 2,
@@ -106,11 +106,12 @@ class PaymentModal extends React.Component {
         }
       ]
     }).then(response => {
+      console.log("Delivery response: ", response)
       this.setState({
         deliverySuccess: true,
         deliveryInfo: {
-          trackingID: response.trackingID,
-          dateDelivered: response.orderDate
+          trackingID: response.data.trackingID,
+          dateDelivered: response.data.orderDate
         }
       })
       this.toggleShow()

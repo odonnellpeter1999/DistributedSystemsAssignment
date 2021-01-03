@@ -24,10 +24,10 @@ class DeliverySuccessModal extends React.Component {
                     <Modal.Title>Success!</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Your apples are on the way!!!
+                        <p>Your apples are on the way!</p>
                         <ListGroup>
                             <ListGroup.Item>Tracking ID: {this.props.deliveryInfo.trackingID}</ListGroup.Item>
-                            <ListGroup.Item>TDate Delivered: {this.props.deliveryInfo.dateDelivered}</ListGroup.Item>
+                            <ListGroup.Item>Date Delivered: {this.props.deliveryInfo.dateDelivered}</ListGroup.Item>
                         </ListGroup>
                     </Modal.Body>
                     

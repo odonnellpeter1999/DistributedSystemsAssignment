@@ -45,4 +45,8 @@ public class Parcel implements Serializable {
     public Double calcVolume() {
         return this.widthCm * this.lengthCm * this.heightCm;
     }
+
+	public double getWeightKg() {
+		return this.weightKg;
+	}
 }
