@@ -52,6 +52,7 @@ class PaymentModal extends React.Component {
       response.data.forEach(quotation => {
         console.log(quotation)
         quotationsList.push({
+          postalServiceID: quotation.serviceID,
           postalService: quotation.providerName,
           price: quotation.price,
           long: long,
@@ -91,8 +92,7 @@ class PaymentModal extends React.Component {
     let packageInfo = this.props.product.packageInfo
 
     Axios.post('http://localhost:8800/request', {
-      "serviceName": this.state.chosenQuotation.postalService,
-      "price": this.state.chosenQuotation.postalService,
+      "serviceID": this.state.chosenQuotation.postalServiceID,
       "sourceLon": 48,
       "sourceLat": 2,
       "destinationLon": long,
@@ -110,7 +110,7 @@ class PaymentModal extends React.Component {
         deliverySuccess: true,
         deliveryInfo: {
           trackingID: response.trackingID,
-          dateDelivered: response.dateDelivered
+          dateDelivered: response.orderDate
         }
       })
       this.toggleShow()
