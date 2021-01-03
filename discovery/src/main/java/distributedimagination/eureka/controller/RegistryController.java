@@ -31,4 +31,10 @@ public class RegistryController {
     public Map<String, String> getPostalServiceURLs() {
         return registryService.getPostalURLs();
     }
+
+
+    @RequestMapping(value = "/postal-services/id", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> getPostalServiceIDs() {
+        return registryService.getPostalIDs();
+    }
 }
