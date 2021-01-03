@@ -1,3 +1,5 @@
+package distributedimagination.delivery.service;
+
 import com.google.gson.*;
 import distributedimagination.delivery.entity.OrderQuery;
 import distributedimagination.delivery.entity.ParcelQuery;
@@ -9,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
-
-ppackage distributedimagination.delivery.service;
 
 @Service
 public class DeliveryService {
