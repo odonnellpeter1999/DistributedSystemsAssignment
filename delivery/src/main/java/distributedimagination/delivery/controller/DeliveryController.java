@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
@@ -24,10 +25,9 @@ public class DeliveryController {
     }
 
     @PostMapping(value = "/request-delivery", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin(origins = "http://localhost:3000")
     public String getDeliveryList(@RequestBody String order) {
         JsonObject jsonOrder = JsonParser.parseString(order).getAsJsonObject();
-        String serviceID = jsonOrder.get("serviceID").toString().replace("\"", "");
+        String serviceID = jsonOrder.get("serviceID").toString().replaceAll("\"", "");
         return deliveryService.GenerateDelivery(serviceID, jsonOrder);
     }
 }

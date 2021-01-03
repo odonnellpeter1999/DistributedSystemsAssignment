@@ -80,7 +80,7 @@ public class QuotationService {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
             HashMap<String, String> obj = new HashMap<>();
-            obj.put("serviceID", jo.get("serviceId").toString());
+            obj.put("serviceID", jo.get("serviceId").toString().replaceAll("\"", ""));
             obj.put("providerName", name);
             obj.put("price", jo.get("cost").toString());
             quotations.add(obj);
