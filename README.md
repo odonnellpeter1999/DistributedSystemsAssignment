@@ -8,7 +8,9 @@ A microservices system that offers an 'inbetween' for e-commerce sites and posta
 2. Initiate a delivery order
 3. Track that orders status and location in the postal services sorting centres.
 
-This system is easily scalable to accommodate multiple postal services and designed to perform under load from its clients.
+This system is scalable to accommodate multiple postal services and designed to perform under load from its clients.
+
+The system has been configured to run locally with either the Netflix OSS stack (Eureka and Zuul for load balancing and service discovery) or via Kubernetes. See below, how to run the system both ways.
 
 ## Running the system locally
 
@@ -92,8 +94,19 @@ Will give back the address and port to reach the service via browser
 ```
 minikube service quotation-service-service
 ```
-<br>
-<br>
+
+## The Client
+
+A sample client (built with React.js) that mimics an e-commerce site has been provided for testing purposes. The client is connected to the Zuul server and demonstrates the functionality of each of the broker services (and in doing so, the postal services too).
 
 ### Running the sample client
 
+You will need node package manager (npm) to install all dependencies and run the start scripts.
+
+```
+cd client
+npm install
+npm start
+```
+The client should pop up in your browser looking something like this:
+![Apple Store Front Page](apple-store-front-page.jpg)
