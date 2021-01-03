@@ -15,12 +15,12 @@ public class TrackingController {
         this.trackingService = trackingService;
     }
 
-    @RequestMapping(value = "/service-instances/tracking/list")
+    @RequestMapping(value = "/delivery-providers")
     public Map<String, String> returnMap() {
         return trackingService.getLocations();
     }
 
-    @RequestMapping(value = "/service-instances/tracking")
+    @RequestMapping(value = "/request-tracking")
     public ArrayList<String> getTrackingList() {
         return trackingService.getTrackingList();
     }
