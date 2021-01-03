@@ -34,7 +34,7 @@ public class TrackingService {
     }
 
     public Map<String, String> getLocations() {
-        final String uri = "http://discovery:8761/postal-services/urls";
+        final String uri = "http://localhost:8761/postal-services/urls";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
@@ -61,7 +61,7 @@ public class TrackingService {
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonParser jsonParser = new JsonParser();
             JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String track = name + jo.get("trackingId");
+            String track = name + jo.get("orderId");
 
             tracking.add(track);
         }
