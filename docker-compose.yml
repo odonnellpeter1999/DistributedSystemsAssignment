@@ -82,22 +82,6 @@ services:
     ports:
       - 8800:8800
 
-    tracking:
-      build:
-        dockerfile: Dockerfile
-        context: tracking
-      image: distributed_imagination/tracking:0.0.1-SNAPSHOT
-      environment:
-        - JAVA_OPTS=
-          -DEUREKA_URI1=http://discovery:8761/eureka
-          -DEUREKA_URI2=http://discovery-peer:9002/eureka
-      depends_on:
-        - discovery
-        - discovery-peer
-        - postal-service
-      ports:
-        - 8801:8801
-
   delivery:
     build:
       dockerfile: Dockerfile
@@ -113,3 +97,22 @@ services:
       - postal-service
     ports:
       - 8802:8802
+
+  tracking:
+    build:
+      dockerfile: Dockerfile
+      context: tracking
+    image: distributed_imagination/tracking:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_URI1=http://discovery:8761/eureka
+        -DEUREKA_URI2=http://discovery-peer:9002/eureka
+    depends_on:
+      - discovery
+      - discovery-peer
+      - postal-service
+    ports:
+      - 8801:8801
+
+
+
