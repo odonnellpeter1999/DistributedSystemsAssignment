@@ -1,5 +1,7 @@
 package distributedimagination.tracking.controller;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import distributedimagination.tracking.service.TrackingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +19,12 @@ public class TrackingController {
 
     @RequestMapping(value = "/delivery-providers")
     public Map<String, String> returnMap() {
-        return trackingService.getLocations();
+        return trackingService.getPostalIDs();
     }
 
     @RequestMapping(value = "/request-tracking")
-    public Map<String, String> getTrackingList() {
-        return trackingService.getTrackingList();
+    public Map<String, String> getTrackingList(@RequestBody String trackingInfo) {
+        JsonObject jsonOrder = JsonParser.parseString(trackingInfo).getAsJsonObject();
+        return trackingService.getTrackingList(jsonOrder);
     }
 }

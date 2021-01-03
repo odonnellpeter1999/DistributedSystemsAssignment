@@ -34,51 +34,44 @@ public class TrackingService {
         return testOrder;
     }
 
-    public Map<String, String> getLocations() {
-        final String uri = "http://discovery:8761/postal-services/id";
+    public Map<String, String> getPostalIDs() {
+        final String uri = "http://localhost:8761/postal-services/id";
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> map;
         map = restTemplate.getForObject(uri, Map.class);
         return map;
     }
 
-    public Map<String, String> getTrackingList() {
+    public Map<String, String> getTrackingList(JsonObject trackingInfo) {
+        String trackingID = trackingInfo.get("trackingId").toString().replaceAll("^\"|\"$", "");
+        String serviceID = trackingID.split("-")[0];
+        Map<String, String> serviceIDs = getPostalIDs();
+        String url = serviceIDs.get(serviceID) + "track/" + trackingID;
+
+        System.out.println(url);
+        System.out.println(serviceID);
+
         Map<String, String> tracking = new HashMap<>();
-        Map<String, String> map = getLocations();
-        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, String> entry = iterator.next();
-            String appURL = entry.getValue() + "track";
-            String name = entry.getKey();
-            RestTemplate restTemplate = new RestTemplate();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
-            Gson gson = new Gson();
-            String json = gson.toJson(orderQuery);
-            HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
-            JsonParser jsonParser = new JsonParser();
-            JsonObject jo = (JsonObject) jsonParser.parse(responseEntity.getBody());
-            String track = jo.get("facility").toString();
-            String oid = jo.get("oid").toString();
-            String dateDelivered = jo.get("dateDelivered").toString();
-            String status = "ORDER CONFIRMED";
-                if (oid == null) {
-                    status = "QUOTATION"; // Order has not been placed yet
-                }
-                if (dateDelivered != null) {
-                    status =  "DELIVERED"; // Order has been delivered 
-                }
-                if (track != null) {
-                    status =  "AT SORTING FACILITY"; // Order is still at source but placed
-                }
-
-            tracking.put("track", track);
-            tracking.put("status", status);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        System.out.println(response.getBody());
+        JsonObject jo = (JsonObject) JsonParser.parseString(response.getBody());
+        String track = jo.get("facility").toString();
+        String oid = jo.get("oid").toString();
+        String dateDelivered = jo.get("dateDelivered").toString();
+        String status = "ORDER CONFIRMED";
+        if (oid == null) {
+            status = "QUOTATION"; // Order has not been placed yet
         }
+        if (dateDelivered != null) {
+            status =  "DELIVERED"; // Order has been delivered 
+        }
+        if (track != null) {
+            status =  "AT SORTING FACILITY"; // Order is still at source but placed
+        }
+
+        tracking.put("track", track);
+        tracking.put("status", status);
         return tracking;
     }
 }
