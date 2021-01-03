@@ -2,13 +2,10 @@ package distributedimagination.tracking.service;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -36,10 +33,6 @@ public class TrackingService {
         Map<String, String> tracking = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         System.out.println(response.getBody());
         JsonObject jo = (JsonObject) JsonParser.parseString(response.getBody());
@@ -47,6 +40,7 @@ public class TrackingService {
         String oid = jo.get("oid").toString();
         String dateDelivered = jo.get("dateDelivered").toString();
         String status = "ORDER CONFIRMED";
+
         if (oid == null) {
             status = "QUOTATION"; // Order has not been placed yet
         }

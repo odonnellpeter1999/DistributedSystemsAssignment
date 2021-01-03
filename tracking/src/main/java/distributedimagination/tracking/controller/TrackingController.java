@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import distributedimagination.tracking.service.TrackingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class TrackingController {
         return trackingService.getPostalIDs();
     }
 
-    @RequestMapping(value = "/request-tracking")
+    @RequestMapping(value = "/request-tracking", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> TrackingList(@RequestBody String trackingInfo) {
         JsonObject jsonTracking = JsonParser.parseString(trackingInfo).getAsJsonObject();
         return trackingService.getTracking(jsonTracking);
