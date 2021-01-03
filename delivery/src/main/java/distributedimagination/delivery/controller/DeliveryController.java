@@ -27,6 +27,7 @@ public class DeliveryController {
     @CrossOrigin(origins = "http://localhost:3000")
     public String getDeliveryList(@RequestBody String order) {
         JsonObject jsonOrder = JsonParser.parseString(order).getAsJsonObject();
-        return deliveryService.GenerateDelivery(jsonOrder);
+        String serviceID = jsonOrder.get("serviceID").toString();
+        return deliveryService.GenerateDelivery(serviceID, jsonOrder);
     }
 }

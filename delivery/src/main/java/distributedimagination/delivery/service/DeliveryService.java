@@ -23,7 +23,7 @@ public class DeliveryService {
         return map;
     }
 
-    public String GenerateDelivery(JsonObject jsonObject) {
+    public String GenerateDelivery(String serviceID, JsonObject jsonObject) {
         JsonArray parcelArray = jsonObject.getAsJsonArray("parcels");
         ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
 
@@ -40,7 +40,7 @@ public class DeliveryService {
                 jsonObject.get("sourceLat").getAsDouble(), jsonObject.get("destinationLon").getAsDouble(),
                 jsonObject.get("destinationLat").getAsDouble(), parcelQueryList);
 
-        ArrayList<Map<String, String>> deliveries = getDeliveryList(orderQuery);
+        ArrayList<Map<String, String>> deliveries = getDeliveryList(serviceID, orderQuery);
 
         Gson gson = new Gson();
         String jsArray = gson.toJson(deliveries);
@@ -49,35 +49,40 @@ public class DeliveryService {
 
     }
 
-    public ArrayList<Map<String, String>> getDeliveryList(OrderQuery orderQuery) {
+    public ArrayList<Map<String, String>> getDeliveryList(String serviceID, OrderQuery orderQuery) {
         Map<String, String> map = getDelivery();
         ArrayList<Map<String, String>> deliveries = new ArrayList<>();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+
         while (iterator.hasNext()) {
             Map.Entry<String, String> entry = iterator.next();
             RestTemplate restTemplate = new RestTemplate();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            if (entry.getKey() == serviceID) {
 
-            String name = entry.getKey();
-            String appURL = entry.getValue() + "orders";
-            Gson gson = new Gson();
-            String json = gson.toJson(orderQuery);
-            HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
-            JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
-            String orderDate = name + jo.get("dateOrdered");
-            String trackingID = jo.get("trackingId").toString();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-            HashMap<String, String> obj = new HashMap<>();
-            obj.put("orderDate", orderDate);
-            obj.put("trackingID", trackingID);
-            deliveries.add(obj);
+                String name = entry.getKey();
+                String appURL = entry.getValue() + "orders";
+                Gson gson = new Gson();
+                String json = gson.toJson(orderQuery);
+                HttpEntity<String> request = new HttpEntity<String>(json, headers);
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
+                JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
+                String orderDate = name + jo.get("dateOrdered");
+                String trackingID = jo.get("trackingId").toString();
+
+                HashMap<String, String> obj = new HashMap<>();
+                obj.put("orderDate", orderDate);
+                obj.put("trackingID", trackingID);
+                deliveries.add(obj);
+            }
         }
         return deliveries;
     }
 }
+
 
 
