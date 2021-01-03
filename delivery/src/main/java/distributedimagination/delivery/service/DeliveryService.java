@@ -40,18 +40,18 @@ public class DeliveryService {
                 jsonObject.get("sourceLat").getAsDouble(), jsonObject.get("destinationLon").getAsDouble(),
                 jsonObject.get("destinationLat").getAsDouble(), parcelQueryList);
 
-        ArrayList<Map<String, String>> deliveries = getDeliveryList(serviceID, orderQuery);
+        Map<String, String> deliveries = getDeliveryList(serviceID, orderQuery);
 
         Gson gson = new Gson();
-        String jsArray = gson.toJson(deliveries);
+        String jsObj = gson.toJson(deliveries);
 
-        return jsArray;
+        return jsObj;
 
     }
 
-    public ArrayList<Map<String, String>> getDeliveryList(String serviceID, OrderQuery orderQuery) {
+    public Map<String, String> getDeliveryList(String serviceID, OrderQuery orderQuery) {
         Map<String, String> map = getDelivery();
-        ArrayList<Map<String, String>> deliveries = new ArrayList<>();
+        HashMap<String, String> deliveries = new HashMap<>();
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
 
         while (iterator.hasNext()) {
@@ -73,10 +73,9 @@ public class DeliveryService {
                 String orderDate = name + jo.get("dateOrdered");
                 String trackingID = jo.get("trackingId").toString();
 
-                HashMap<String, String> obj = new HashMap<>();
-                obj.put("orderDate", orderDate);
-                obj.put("trackingID", trackingID);
-                deliveries.add(obj);
+                deliveries.put("orderDate", orderDate);
+                deliveries.put("trackingID", trackingID);
+
             }
         }
         return deliveries;
