@@ -79,8 +79,8 @@ public class QuotationService {
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
             JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
-            // String quote = "providerName:" + name + ", price:" + jo.get("cost");
             HashMap<String, String> obj = new HashMap<>();
+            obj.put("serviceID", jo.get("serviceId").toString());
             obj.put("providerName", name);
             obj.put("price", jo.get("cost").toString());
             quotations.add(obj);

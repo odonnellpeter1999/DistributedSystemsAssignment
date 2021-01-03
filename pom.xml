@@ -12,8 +12,6 @@
         <module>postal-service</module>
         <module>delivery</module>
         <module>tracking</module>
-
-
     </modules>
 
     <properties>
