@@ -23,15 +23,7 @@ public class DeliveryService {
 
     private OrderQuery orderQuery = GenerateOrderTest();
 
-
-    public Map<String, String> getDelivery() {
-        final String uri = "http://discovery:8761/postal-services/urls";
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> map;
-        map = restTemplate.getForObject(uri, Map.class);
-        return map;
-    }
-
+    
     public OrderQuery GenerateOrderTest() {
         ParcelQuery testParcel = new ParcelQuery(100.0, 100.0, 100.0, 100.0);
         ArrayList<ParcelQuery> parcelQueryList = new ArrayList<ParcelQuery>();
@@ -40,6 +32,14 @@ public class DeliveryService {
                 parcelQueryList);
 
         return testOrder;
+    }
+
+    public Map<String, String> getDelivery() {
+        final String uri = "http://discovery:8761/postal-services/urls";
+        RestTemplate restTemplate = new RestTemplate();
+        Map<String, String> map;
+        map = restTemplate.getForObject(uri, Map.class);
+        return map;
     }
 
     public Map<String, String> getDeliveryList() {
