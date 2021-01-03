@@ -39,4 +39,16 @@ public class RegistryService {
         return postalServices;
     }
 
+    public Map<String, String> getPostalIDs() {
+        Map<String, String> postalServices = new HashMap<>();
+        List<Application> applications = eurekaClient.getApplications().getRegisteredApplications();
+        for (Application application : applications) {
+            for (InstanceInfo instance: application.getInstances()) {
+                if (instance.getAppName().contains("POSTALSERVICE"))
+                    postalServices.put(instance.getMetadata().get("service-id"), instance.getHomePageUrl());
+            }
+        }
+        return postalServices;
+    }
+
 }
