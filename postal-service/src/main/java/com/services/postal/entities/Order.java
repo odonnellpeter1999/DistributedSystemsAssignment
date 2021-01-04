@@ -19,6 +19,8 @@ import java.util.UUID;
  * A shipping order will contain multiple parcels.
  * From ONE source location to ONE destination.
  */
+@Getter
+@Setter
 @Builder
 @Entity
 @Data
@@ -155,4 +157,5 @@ public class Order {
 
         return Math.sqrt(distance);
     }
+
 }

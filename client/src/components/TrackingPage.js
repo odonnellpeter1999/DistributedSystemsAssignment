@@ -7,6 +7,7 @@ import FormGroup from 'react-bootstrap/esm/FormGroup';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom'
+import Axios from 'axios'
 
 class TrackingPage extends React.Component {
   constructor() {
@@ -21,11 +22,30 @@ class TrackingPage extends React.Component {
 
   trackOrder() {
     let id = document.getElementById("trackingIdInput").value
-    this.setState({
-      trackingInfo: {
-        id: id,
-        status: "Dispatched",
-        location: "Dublin IRL"
+
+    console.log("Tracking: " + id)
+
+    Axios.get('http://localhost:8801/request-tracking/' + id).then(response => {
+      if (response.data.error != null) {
+        this.setState({
+          error: response.error
+        })
+      } else if (response.data.facility == null ){
+        this.setState({
+          trackingInfo: {
+            id: id,
+            status: response.data.status,
+            facility: "Not at a facility yet"
+          }
+        })
+      } else {
+        this.setState({
+          trackingInfo: {
+            id: id,
+            status: response.data.status,
+            facility: response.data.facility
+          }
+        })
       }
     })
   }
@@ -38,12 +58,15 @@ class TrackingPage extends React.Component {
           <Container className="trackingInfo">
             <Row>Tracking ID: {trackingInfo.id}</Row>
             <Row>Status: {trackingInfo.status}</Row>
-            <Row>Location: {trackingInfo.location}</Row>
+            <Row>Last known Location: {trackingInfo.facility}</Row>
           </Container>
         </>
       )
+    } else if (this.state.error != null) {
+      return (
+        <p>Error: {this.state.error}</p>
+      )
     }
-    
   }
 
   render() {

@@ -10,10 +10,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>distributedimagination</groupId>
-    <artifactId>quotations</artifactId>
+    <artifactId>deliveryservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>quotation</name>
-    <description>quotation service for assignment 2</description>
+    <name>delivery</name>
+    <description>delivery service for assignment 2</description>
 
 
     <properties>
@@ -86,6 +86,4 @@
             <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
-
-
 </project>

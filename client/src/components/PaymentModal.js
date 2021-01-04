@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
 import React from 'react';
 import Axios from 'axios'
+import DeliverySuccessModal from './DeliverySuccessModal'
 
 class PaymentModal extends React.Component {
   constructor(){
@@ -11,11 +12,14 @@ class PaymentModal extends React.Component {
     this.state = {
       showHide : false,
       quotations: [],
-      chosenService: null
+      chosenService: null,
+      deliverySuccess: false,
+      deliveryInfo: null
     }
     this.toggleShow = this.toggleShow.bind(this)
     this.getQuotations = this.getQuotations.bind(this)
     this.chooseQuotation = this.chooseQuotation.bind(this)
+    this.closeDeliverySuccess = this.closeDeliverySuccess.bind(this)
   }
 
   chooseQuotation(q) {
@@ -27,12 +31,10 @@ class PaymentModal extends React.Component {
   getQuotations() {
     let lat = parseInt(document.getElementById("lat").value)
     let long = parseInt(document.getElementById("long").value)
-    console.log('Longitude: ' + long)
-    console.log('Latitude: ' + lat)
     
     let packageInfo = this.props.product.packageInfo
 
-    let postObject = {
+    Axios.post('http://localhost:8800/request-quote', {
       "sourceLon": 48,
       "sourceLat": 2,
       "destinationLon": long,
@@ -45,15 +47,16 @@ class PaymentModal extends React.Component {
           "heightCm": packageInfo.height,
         }
       ]
-    }
-
-    Axios.post('http://localhost:8800/request', postObject).then(response => {
+    }).then(response => {
       let quotationsList = []
       response.data.forEach(quotation => {
         console.log(quotation)
         quotationsList.push({
+          postalServiceID: quotation.serviceID,
           postalService: quotation.providerName,
-          price: quotation.price
+          price: quotation.price,
+          long: long,
+          lat: lat
         })
       })
       this.setState({
@@ -83,7 +86,51 @@ class PaymentModal extends React.Component {
   }
 
   deliver() {
-    this.toggleShow()
+    let lat = this.state.chosenQuotation.lat
+    let long = this.state.chosenQuotation.long
+    
+    let packageInfo = this.props.product.packageInfo
+
+    Axios.post('http://localhost:8802/request-delivery', {
+      "serviceID": this.state.chosenQuotation.postalServiceID,
+      "sourceLon": 48,
+      "sourceLat": 2,
+      "destinationLon": long,
+      "destinationLat": lat,
+      "parcels": [
+        {
+          "weightKg": packageInfo.weight,
+          "lengthCm": packageInfo.lengthCm,
+          "widthCm": packageInfo.width,
+          "heightCm": packageInfo.height,
+        }
+      ]
+    }).then(response => {
+      console.log("Delivery response: ", response)
+      this.setState({
+        deliverySuccess: true,
+        deliveryInfo: {
+          trackingID: response.data.trackingID,
+          dateDelivered: response.data.orderDate,
+          expectedDate: response.data.expectedDate
+        }
+      })
+      this.toggleShow()
+    })
+  }
+
+  deliverySuccessModal() {
+    if (this.state.deliverySuccess) {
+      return(<DeliverySuccessModal deliveryInfo={this.state.deliveryInfo} close={this.closeDeliverySuccess} />)
+    }
+    
+  }
+
+  closeDeliverySuccess() {
+    this.setState({
+      deliverySuccess: false,
+      deliveryInfo: null
+    })
   }
 
   formatMoney(number) {
@@ -144,6 +191,7 @@ class PaymentModal extends React.Component {
                   </Button>
                 </Modal.Footer>
         </Modal>
+        {this.deliverySuccessModal()}
       </>
     );
 }

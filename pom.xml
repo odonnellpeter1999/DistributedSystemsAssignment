@@ -6,11 +6,17 @@
     <packaging>pom</packaging>
     <modules>
         <module>common</module>
+<<<<<<< HEAD
         <module>quotations</module>
+=======
+        <module>template</module>
+>>>>>>> d704996e2e90e4a358063d5cdd55bd2498da5639
         <module>discovery</module>
         <module>router</module>
         <module>postal-service</module>
-
+        <module>delivery</module>
+        <module>tracking</module>
+        <module>quotations</module>
     </modules>
 
     <properties>

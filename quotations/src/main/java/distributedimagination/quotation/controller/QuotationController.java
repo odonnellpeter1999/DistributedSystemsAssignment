@@ -15,6 +15,7 @@ import java.util.Map;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 public class QuotationController {
 
     private final QuotationService quotationService;
@@ -29,8 +30,7 @@ public class QuotationController {
         return quotationService.getQuotes();
     }
 
-    @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping(value = "/request-quote", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getQuotation(@RequestBody String order) {
         JsonObject jsonOrder = JsonParser.parseString(order).getAsJsonObject();
         return quotationService.GenerateQuote(jsonOrder);
