@@ -18,8 +18,7 @@ public class DeliveryService {
     public Map<String, String> getDelivery() {
         final String uri = "http://discovery:8761/postal-services/id";
         RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> map;
-        map = restTemplate.getForObject(uri, Map.class);
+        Map<String, String> map = restTemplate.getForObject(uri, Map.class);
         return map;
     }
 
@@ -63,15 +62,14 @@ public class DeliveryService {
                 headers.setContentType(MediaType.APPLICATION_JSON);
                 headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-                String name = entry.getKey();
                 String appURL = entry.getValue() + "orders";
                 Gson gson = new Gson();
                 String json = gson.toJson(orderQuery);
                 HttpEntity<String> request = new HttpEntity<String>(json, headers);
                 ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
                 JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
-                String orderDate = name + jo.get("dateOrdered").toString().replace("\"", "");
-                String expectedDate = name + jo.get("dateExpected").toString().replace("\"", "");
+                String orderDate = jo.get("dateOrdered").toString().replace("\"", "");
+                String expectedDate = jo.get("dateExpected").toString().replace("\"", "");
                 String trackingID = jo.get("trackingId").toString().replace("\"", "");
 
                 deliveries.put("orderDate", orderDate);
