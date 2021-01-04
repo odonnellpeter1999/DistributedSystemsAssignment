@@ -21,10 +21,9 @@ public class TrackingService {
         return map;
     }
 
-    public Map<String, String> getTracking(JsonObject trackingInfo) {
+    public Map<String, String> getTracking(String trackingID) {
         String url;
         Map<String, String> trackingResponse = new HashMap<>();
-        String trackingID = trackingInfo.get("trackingId").toString().replaceAll("^\"|\"$", "");
         String serviceID = trackingID.split("-")[0];
         
         Map<String, String> serviceIDs = getPostalIDs();

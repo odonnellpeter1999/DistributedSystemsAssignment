@@ -24,9 +24,8 @@ public class TrackingController {
         return trackingService.getPostalIDs();
     }
 
-    @RequestMapping(value = "/request-tracking", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> TrackingList(@RequestBody String trackingInfo) {
-        JsonObject jsonTrackingInfo = JsonParser.parseString(trackingInfo).getAsJsonObject();
-        return trackingService.getTracking(jsonTrackingInfo);
+    @RequestMapping(value = "/request-tracking/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> TrackingList(@PathVariable("id")  String id) {
+        return trackingService.getTracking(id);
     }
 }

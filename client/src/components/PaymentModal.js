@@ -111,7 +111,8 @@ class PaymentModal extends React.Component {
         deliverySuccess: true,
         deliveryInfo: {
           trackingID: response.data.trackingID,
-          dateDelivered: response.data.orderDate
+          dateDelivered: response.data.orderDate,
+          expectedDate: response.data.expectedDate
         }
       })
       this.toggleShow()

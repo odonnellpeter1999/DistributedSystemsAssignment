@@ -27,7 +27,8 @@ class DeliverySuccessModal extends React.Component {
                         <p>Your apples are on the way!</p>
                         <ListGroup>
                             <ListGroup.Item>Tracking ID: {this.props.deliveryInfo.trackingID}</ListGroup.Item>
-                            <ListGroup.Item>Date Delivered: {this.props.deliveryInfo.dateDelivered}</ListGroup.Item>
+                            <ListGroup.Item>Date Ordered: {this.props.deliveryInfo.dateDelivered}</ListGroup.Item>
+                            <ListGroup.Item>Expected Delivery Date: {this.props.deliveryInfo.dateDelivered}</ListGroup.Item>
                         </ListGroup>
                     </Modal.Body>
                     
