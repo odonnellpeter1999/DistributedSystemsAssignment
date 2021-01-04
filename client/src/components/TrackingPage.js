@@ -30,7 +30,7 @@ class TrackingPage extends React.Component {
         this.setState({
           error: response.error
         })
-      } else if (response.data.facility == null ){
+      } else if (response.data.location == null ){
         this.setState({
           trackingInfo: {
             id: id,
@@ -43,7 +43,7 @@ class TrackingPage extends React.Component {
           trackingInfo: {
             id: id,
             status: response.data.status,
-            facility: response.data.facility
+            facility: response.data.location
           }
         })
       }

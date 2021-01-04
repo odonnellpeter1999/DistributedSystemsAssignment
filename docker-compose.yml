@@ -116,13 +116,8 @@ services:
   database:
     image: "postgres" 
     env_file:
-<<<<<<< HEAD
       - database.env 
     ports: 
-=======
-      - database.env # configure postgres
-    ports:
->>>>>>> d704996e2e90e4a358063d5cdd55bd2498da5639
       - 5432:5432
 
   database-2:
@@ -141,7 +136,6 @@ services:
 
 
   quotations:
-<<<<<<< HEAD
      build:
        dockerfile: Dockerfile
        context: quotations
@@ -156,22 +150,6 @@ services:
        - postal-service
      ports:
        - 8800:8800
-=======
-    build:
-      dockerfile: Dockerfile
-      context: quotations
-    image: distributed_imagination/quotations:0.0.1-SNAPSHOT
-    environment:
-      - JAVA_OPTS=
-        -DEUREKA_URI1=http://discovery:8761/eureka
-        -DEUREKA_URI2=http://discovery-peer:9002/eureka
-    depends_on:
-      - discovery
-      - discovery-peer
-      - postal-service
-    ports:
-      - 8800:8800
->>>>>>> d704996e2e90e4a358063d5cdd55bd2498da5639
 
   delivery:
     build:
