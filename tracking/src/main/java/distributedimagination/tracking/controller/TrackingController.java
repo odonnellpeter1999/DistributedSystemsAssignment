@@ -26,7 +26,7 @@ public class TrackingController {
 
     @RequestMapping(value = "/request-tracking", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> TrackingList(@RequestBody String trackingInfo) {
-        JsonObject jsonTracking = JsonParser.parseString(trackingInfo).getAsJsonObject();
-        return trackingService.getTracking(jsonTracking);
+        JsonObject jsonTrackingInfo = JsonParser.parseString(trackingInfo).getAsJsonObject();
+        return trackingService.getTracking(jsonTrackingInfo);
     }
 }

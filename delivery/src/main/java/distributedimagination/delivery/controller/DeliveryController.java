@@ -27,7 +27,7 @@ public class DeliveryController {
     @PostMapping(value = "/request-delivery", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getDeliveryList(@RequestBody String order) {
         JsonObject jsonOrder = JsonParser.parseString(order).getAsJsonObject();
-        String serviceID = jsonOrder.get("serviceID").toString().replaceAll("\"", "");
+        String serviceID = jsonOrder.get("serviceID").toString().replace("\"", "");
         return deliveryService.GenerateDelivery(serviceID, jsonOrder);
     }
 }

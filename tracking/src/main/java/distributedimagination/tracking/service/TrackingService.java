@@ -22,37 +22,35 @@ public class TrackingService {
     }
 
     public Map<String, String> getTracking(JsonObject trackingInfo) {
+        String url;
+        Map<String, String> trackingResponse = new HashMap<>();
         String trackingID = trackingInfo.get("trackingId").toString().replaceAll("^\"|\"$", "");
         String serviceID = trackingID.split("-")[0];
+        
         Map<String, String> serviceIDs = getPostalIDs();
-        String url = serviceIDs.get(serviceID) + "track/" + trackingID;
+        if (serviceIDs.get(serviceID) != null) {
+            url = serviceIDs.get(serviceID) + "track/" + trackingID;
+        } else {
+            trackingResponse.put("error", "Tracking ID does not exist");
+            return trackingResponse;
+        }
 
-        System.out.println(url);
-        System.out.println(serviceID);
-
-        Map<String, String> tracking = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
-
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         System.out.println(response.getBody());
         JsonObject jo = (JsonObject) JsonParser.parseString(response.getBody());
-        String track = jo.get("facility").toString();
-        String oid = jo.get("oid").toString();
-        String dateDelivered = jo.get("dateDelivered").toString();
-        String status = "ORDER CONFIRMED";
+        
+        if (jo.get("status") != null) {
+            String status = jo.get("status").toString().replace("\"", "");
+            trackingResponse.put("status", status);
+        }   
 
-        if (oid == null) {
-            status = "QUOTATION"; // Order has not been placed yet
-        }
-        if (dateDelivered != null) {
-            status =  "DELIVERED"; // Order has been delivered 
-        }
-        if (track != null) {
-            status =  "AT SORTING FACILITY"; // Order is still at source but placed
+        if (jo.get("facility") != null) {
+            JsonObject facility = (JsonObject) jo.get("facility");
+            String facilityName = facility.get("name").toString().replace("\"", "");;
+            trackingResponse.put("location", facilityName);
         }
 
-        tracking.put("track", track);
-        tracking.put("status", status);
-        return tracking;
+        return trackingResponse;
     }
 }

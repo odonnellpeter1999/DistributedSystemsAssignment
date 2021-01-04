@@ -70,10 +70,12 @@ public class DeliveryService {
                 HttpEntity<String> request = new HttpEntity<String>(json, headers);
                 ResponseEntity<String> responseEntity = restTemplate.postForEntity(appURL, request, String.class);
                 JsonObject jo = (JsonObject) JsonParser.parseString(responseEntity.getBody());
-                String orderDate = name + jo.get("dateOrdered");
-                String trackingID = jo.get("trackingId").toString();
+                String orderDate = name + jo.get("dateOrdered").toString().replace("\"", "");
+                String expectedDate = name + jo.get("dateExpected").toString().replace("\"", "");
+                String trackingID = jo.get("trackingId").toString().replace("\"", "");
 
                 deliveries.put("orderDate", orderDate);
+                deliveries.put("expectedDate", expectedDate);
                 deliveries.put("trackingID", trackingID);
 
             }
