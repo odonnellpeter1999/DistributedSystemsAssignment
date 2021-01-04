@@ -3,6 +3,6 @@ server:
 spring:
   datasource:
     ## POSTGRESQL DB
-    url: jdbc:postgresql://database:5432/
+    url: ${DATASOURCE_URI:jdbc:postgresql://database:5432/}
     username: postgres
     password: password

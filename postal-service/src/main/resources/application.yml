@@ -49,12 +49,12 @@ springdoc:
   writer-with-order-by-keys: true
 
 server:
-  port: 8408
+  port: ${8408}
   error:
     include-message: always
 
-DeliveryCostMultiplier: 0.69
-SimulationInterval: 5000
-DeliverySpeed: 10000
-PostalServiceName: DHL
-PostalServiceId: dhl
+DeliveryCostMultiplier: ${COST_MULTIPLIER:0.69}
+SimulationInterval: ${SIMULATION_INTERVAL:0.69}
+DeliverySpeed: ${DELIVERY_SPEED:10000}
+PostalServiceName: ${POSTAL_SERVICE_NAME:DHL}
+PostalServiceId: ${POSTAL_SERVICE_ID:dhl}

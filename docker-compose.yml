@@ -51,6 +51,13 @@ services:
         -DEUREKA_URI1=http://discovery:8761/eureka
         -DEUREKA_URI2=http://discovery-peer:9002/eureka
         -Dspring.profiles.active=local
+        -DCOST_MULTIPLIER=0.69
+        -DSIMULATION_INTERVAL=5000
+        -DDELIVERY_SPEED=10000
+        -DPOSTAL_SERVICE_NAME=DHL
+        -DPOSTAL_SERVICE_ID=dhl
+        -DPORT=8408
+        -DDATASOURCE_URI=jdbc:postgresql://database:5432/
     depends_on:
       - discovery
       - discovery-peer
@@ -58,27 +65,89 @@ services:
     ports:
       - 8408:8408
 
+  postal-service-2:
+     build:
+       dockerfile: Dockerfile
+       context: postal-service
+     image: distributed_imagination/postal-service:0.0.1
+     environment:
+       - JAVA_OPTS=
+         -DEUREKA_URI1=http://discovery:8761/eureka
+         -DEUREKA_URI2=http://discovery-peer:9002/eureka
+         -Dspring.profiles.active=local
+         -DCOST_MULTIPLIER=0.80
+         -DSIMULATION_INTERVAL=5000
+         -DDELIVERY_SPEED=10000
+         -DPOSTAL_SERVICE_NAME=ANPOST
+         -DPOSTAL_SERVICE_ID=anp
+         -DDATASOURCE_URI=jdbc:postgresql://database-2:5432/
+         -DPORT=8409
+     depends_on:
+       - discovery
+       - discovery-peer
+       - database-2
+     ports:
+       - 8409:8408
+
+  postal-service-3:
+     build:
+       dockerfile: Dockerfile
+       context: postal-service
+     image: distributed_imagination/postal-service:0.0.1
+     environment:
+       - JAVA_OPTS=
+         -DEUREKA_URI1=http://discovery:8761/eureka
+         -DEUREKA_URI2=http://discovery-peer:9002/eureka
+         -Dspring.profiles.active=local
+         -DCOST_MULTIPLIER=0.4
+         -DSIMULATION_INTERVAL=5000
+         -DDELIVERY_SPEED=10000
+         -DPOSTAL_SERVICE_NAME=FASTWAY
+         -DPOSTAL_SERVICE_ID=fwy
+         -DDATASOURCE_URI=jdbc:postgresql://database-3:5432/
+         -DPORT=8410
+     depends_on:
+       - discovery
+       - discovery-peer
+       - database-3
+     ports:
+       - 8410:8408
+
   database:
-    image: "postgres" # use latest official postgres version
+    image: "postgres" 
     env_file:
-      - database.env # configure postgres
+      - database.env 
     ports: 
       - 5432:5432
 
+  database-2:
+     image: "postgres" 
+     env_file:
+       - database.env 
+     ports:
+       - 5433:5432
+
+  database-3:
+     image: "postgres" 
+     env_file:
+       - database.env 
+     ports:
+       - 5434:5432
+
 
   quotations:
-    build:
-      dockerfile: Dockerfile
-      context: quotations
-    image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
-    environment:
-      - JAVA_OPTS=
-        -DEUREKA_URI1=http://discovery:8761/eureka
-        -DEUREKA_URI2=http://discovery-peer:9002/eureka
-    depends_on:
-      - discovery
-      - discovery-peer
-      - postal-service
-    ports:
-      - 8800:8800
+     build:
+       dockerfile: Dockerfile
+       context: quotations
+     image: distributed_imagination/quotationservice:0.0.1-SNAPSHOT
+     environment:
+       - JAVA_OPTS=
+         -DEUREKA_URI1=http://discovery:8761/eureka
+         -DEUREKA_URI2=http://discovery-peer:9002/eureka
+     depends_on:
+       - discovery
+       - discovery-peer
+       - postal-service
+     ports:
+       - 8800:8800
 
