@@ -28,9 +28,10 @@ docker-compose up
 ```
 
 ### Running via kubernetes
-A single node cluster to run kubernetes locally. Follow the guide to install all required packages
+A single node cluster to run kubernetes locally. Follow the guide to install both minikube and kubectl packages. 
 ```
-https://kubernetes.io/docs/tasks/tools/
+https://minikube.sigs.k8s.io/docs/
+https://kubernetes.io/docs/tasks/tools/install-kubectl/
 ```
 
 
