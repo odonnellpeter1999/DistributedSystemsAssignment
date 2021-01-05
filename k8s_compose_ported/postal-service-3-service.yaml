@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: postal-service-3
+  name: postal-service-3
+spec:
+  ports:
+  - name: "8410"
+    port: 8410
+    targetPort: 8408
+  selector:
+    io.kompose.service: postal-service-3
+status:
+  loadBalancer: {}

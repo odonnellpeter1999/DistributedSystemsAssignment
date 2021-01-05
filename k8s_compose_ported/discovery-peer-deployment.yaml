@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: discovery-peer
+  name: discovery-peer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: discovery-peer
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: discovery-peer
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTS
+          value: ' -Dspring.profiles.active=peer-2 -DEUREKA_URI=http://discovery:8761/eureka'
+        image: registry.gitlab.com/distributed_imagination/comp30040-assignment-2/discovery:0.0.1
+        imagePullPolicy: ""
+        name: discovery-peer
+        ports:
+        - containerPort: 9002
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+      imagePullSecrets:
+        - name: regcred
+status: {}

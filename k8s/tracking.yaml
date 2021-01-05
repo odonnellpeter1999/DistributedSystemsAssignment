@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tracking-service-service
+spec:
+  selector:
+    app: tracking-service
+  ports:
+    - protocol: TCP
+      port: 8801
+      targetPort: 8801
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracking-service-deployment
+  labels:
+    app: tracking-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tracking-service
+  template:
+    metadata:
+      labels:
+        app: tracking-service
+    spec:
+      containers:
+        - name: tracking-service-container
+          image: registry.gitlab.com/distributed_imagination/comp30040-assignment-2/trackingservice:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8801
+      imagePullSecrets:
+        - name: regcred

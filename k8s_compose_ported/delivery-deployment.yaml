@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: delivery
+  name: delivery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: delivery
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: delivery
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTS
+          value: ' -DEUREKA_URI1=http://discovery:8761/eureka -DEUREKA_URI2=http://discovery-peer:9002/eureka'
+        image: registry.gitlab.com/distributed_imagination/comp30040-assignment-2/deliveryservice:0.0.1-SNAPSHOT
+        imagePullPolicy: ""
+        name: delivery
+        ports:
+        - containerPort: 8802
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+      imagePullSecrets:
+        - name: regcred
+status: {}
