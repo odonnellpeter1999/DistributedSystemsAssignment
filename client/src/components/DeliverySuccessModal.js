@@ -1,7 +1,9 @@
 import React from 'react'
+
 import {Button, ListGroup, Modal} from 'react-bootstrap'
 
 class DeliverySuccessModal extends React.Component {
+
     constructor() {
         super()
         this.state = {
@@ -9,6 +11,7 @@ class DeliverySuccessModal extends React.Component {
         }
     }
 
+    /* State changing methods */
     toggleShow() {
         this.setState({ 
           showHide: !this.state.showHide,
@@ -16,6 +19,7 @@ class DeliverySuccessModal extends React.Component {
         this.props.close()
       }
 
+    /* Rendering Methods */
     render() {
         return (
             <>

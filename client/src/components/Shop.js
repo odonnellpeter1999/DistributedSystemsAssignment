@@ -1,10 +1,12 @@
-import '../App.css';
 import React from 'react';
-import apples from '../apples.jpeg'
+import { Link } from 'react-router-dom';
+
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import CardDeck from 'react-bootstrap/CardDeck'
-import { Link } from 'react-router-dom';
+
+import '../App.css';
+import apples from '../apples.jpeg'
 import PaymentModal from './PaymentModal'
 import config from '../config.js'
 
@@ -36,6 +38,7 @@ class Shop extends React.Component {
       </div>
     );
   }
+  
 }
 
   

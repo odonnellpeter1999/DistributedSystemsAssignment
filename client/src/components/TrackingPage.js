@@ -1,15 +1,20 @@
-import '../App.css';
 import React from 'react'
+import Axios from 'axios'
+import { Link } from 'react-router-dom'
+
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/esm/FormGroup';
 import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
-import { Link } from 'react-router-dom'
-import Axios from 'axios'
+
+import '../App.css';
+
+const trackingServiceURL = 'http://localhost:8762/tracking-service/request-tracking/'
 
 class TrackingPage extends React.Component {
+  
   constructor() {
     super();
     this.state = {
@@ -19,13 +24,13 @@ class TrackingPage extends React.Component {
     this.displayTrackingInfo = this.displayTrackingInfo.bind(this)
   }
 
-
+  /* Request Submission Methods */
   trackOrder() {
     let id = document.getElementById("trackingIdInput").value
 
     console.log("Tracking: " + id)
 
-    Axios.get('http://localhost:8801/request-tracking/' + id).then(response => {
+    Axios.get(trackingServiceURL + id).then(response => {
       if (response.data.error != null) {
         this.setState({
           error: response.error
@@ -50,6 +55,7 @@ class TrackingPage extends React.Component {
     })
   }
 
+  /* Rendering Methods */
   displayTrackingInfo() {
     if (this.state.trackingInfo != null) {
       let trackingInfo = this.state.trackingInfo
@@ -94,7 +100,5 @@ class TrackingPage extends React.Component {
     );
   }
 }
-
-
 
 export default TrackingPage;

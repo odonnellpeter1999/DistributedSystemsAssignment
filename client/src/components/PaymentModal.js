@@ -1,12 +1,18 @@
+import React from 'react';
+import Axios from 'axios'
+
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import ListGroup from 'react-bootstrap/ListGroup'
-import React from 'react';
-import Axios from 'axios'
+
 import DeliverySuccessModal from './DeliverySuccessModal'
 
+const quotationServiceURL = 'http://localhost:8762/quotation-service/request-quote'
+const deliveryServiceURL = 'http://localhost:8762/delivery-service/request-delivery'
+
 class PaymentModal extends React.Component {
+  
   constructor(){
     super();
     this.state = {
@@ -22,19 +28,14 @@ class PaymentModal extends React.Component {
     this.closeDeliverySuccess = this.closeDeliverySuccess.bind(this)
   }
 
-  chooseQuotation(q) {
-    this.setState({ 
-      chosenQuotation: q
-    })
-  }
-
+  /* Request submission methods */
   getQuotations() {
     let lat = parseInt(document.getElementById("lat").value)
     let long = parseInt(document.getElementById("long").value)
     
     let packageInfo = this.props.product.packageInfo
 
-    Axios.post('http://localhost:8800/request-quote', {
+    Axios.post(quotationServiceURL, {
       "sourceLon": 48,
       "sourceLat": 2,
       "destinationLon": long,
@@ -66,33 +67,13 @@ class PaymentModal extends React.Component {
     })
   }
 
-  toggleShow() {
-    this.setState({ 
-      showHide: !this.state.showHide,
-      quotations: [],
-      chosenQuotation: null
-    })
-  }
-
-  deliveryPrice() {
-    if (this.state.chosenQuotation != null) {
-      return(<p>Delivery: {this.formatMoney(this.state.chosenQuotation.price)} - {this.state.chosenQuotation.postalService} </p>)
-    }
-  }
-
-  deliverButton() {
-      if (this.state.chosenQuotation != null) {
-        return(<Button className="qOptButton" variant="outline-dark" onClick={() => {this.deliver()}}>Deliver</Button>)
-    }
-  }
-
   deliver() {
     let lat = this.state.chosenQuotation.lat
     let long = this.state.chosenQuotation.long
     
     let packageInfo = this.props.product.packageInfo
 
-    Axios.post('http://localhost:8802/request-delivery', {
+    Axios.post(deliveryServiceURL, {
       "serviceID": this.state.chosenQuotation.postalServiceID,
       "sourceLon": 48,
       "sourceLat": 2,
@@ -120,11 +101,20 @@ class PaymentModal extends React.Component {
     })
   }
 
-  deliverySuccessModal() {
-    if (this.state.deliverySuccess) {
-      return(<DeliverySuccessModal deliveryInfo={this.state.deliveryInfo} close={this.closeDeliverySuccess} />)
-    }
-    
+
+  /* State changing methods */
+  toggleShow() {
+    this.setState({ 
+      showHide: !this.state.showHide,
+      quotations: [],
+      chosenQuotation: null
+    })
+  }
+
+  chooseQuotation(q) {
+    this.setState({ 
+      chosenQuotation: q
+    })
   }
 
   closeDeliverySuccess() {
@@ -134,16 +124,27 @@ class PaymentModal extends React.Component {
     })
   }
 
-  formatMoney(number) {
-    var formatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'EUR',
-    });
-    return formatter.format(number)
+  /* Rendering Methods */
+  deliveryPrice() {
+    if (this.state.chosenQuotation != null) {
+      return(<p>Delivery: {this.formatMoney(this.state.chosenQuotation.price)} - {this.state.chosenQuotation.postalService} </p>)
+    }
+  }
+
+  deliverButton() {
+      if (this.state.chosenQuotation != null) {
+        return(<Button className="qOptButton" variant="outline-dark" onClick={() => {this.deliver()}}>Deliver</Button>)
+    }
+  }
+
+  deliverySuccessModal() {
+    if (this.state.deliverySuccess) {
+      return(<DeliverySuccessModal deliveryInfo={this.state.deliveryInfo} close={this.closeDeliverySuccess} />)
+    }
+    
   }
   
   render() {
-
     return (
       <>
         <Button variant="outline-dark" onClick={this.toggleShow}>
@@ -195,7 +196,16 @@ class PaymentModal extends React.Component {
         {this.deliverySuccessModal()}
       </>
     );
-}
+  }
+
+  /* Utility Methods */
+  formatMoney(number) {
+    var formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'EUR',
+    });
+    return formatter.format(number)
+  }
 }
 
 export default PaymentModal

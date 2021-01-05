@@ -1,7 +1,9 @@
-import logo from '../apple.png';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+
+import Button from 'react-bootstrap/Button';
+
 import '../App.css';
+import logo from '../apple.png';
 
 function Home() {
   return (
