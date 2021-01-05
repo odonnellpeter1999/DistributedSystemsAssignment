@@ -183,5 +183,10 @@ services:
     ports:
       - 8801:8801
 
-
-
+  client:
+    build:
+      dockerfile: Dockerfile
+      context: client
+    image: distributed_imagination/client
+    ports:
+      - 80:80
