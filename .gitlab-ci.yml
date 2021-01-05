@@ -23,4 +23,5 @@ cache:
 include:
   - local: '/postal-service/.gitlab-ci.yml'
   - local: '/quotations/.gitlab-ci.yml'
-
+  - local: '/tracking/.gitlab-ci.yml'
+  - local: '/delivery/.gitlab-ci.yml'
