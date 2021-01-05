@@ -1,7 +1,8 @@
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+
 import Home from './components/Home'
 import TrackingPage from './components/TrackingPage'
 import Shop from './components/Shop'
-import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 
 function App() {
