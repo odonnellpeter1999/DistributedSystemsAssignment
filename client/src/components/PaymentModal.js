@@ -55,6 +55,7 @@ class PaymentModal extends React.Component {
           postalServiceID: quotation.serviceID,
           postalService: quotation.providerName,
           price: quotation.price,
+          expectedDate: quotation.expectedDate,
           long: long,
           lat: lat
         })
@@ -179,7 +180,7 @@ class PaymentModal extends React.Component {
                           {this.state.quotations.map(quotation => {
                             console.log('quote')
                             return (
-                              <ListGroup.Item >{quotation.postalService}: {this.formatMoney(quotation.price)} <Button className="qOptButton" variant="outline-dark" onClick={() => {this.chooseQuotation(quotation)}}>Choose Quotation</Button></ListGroup.Item>
+                              <ListGroup.Item ><p>{quotation.postalService}: {this.formatMoney(quotation.price)}</p> <p>Expected date of delivery: {quotation.expectedDate}</p> <Button className="qOptButton" variant="outline-dark" onClick={() => {this.chooseQuotation(quotation)}}>Choose Quotation</Button></ListGroup.Item>
                             )
                           })}
                         </ListGroup>
